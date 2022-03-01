@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aryo</title>
+
+    <style>
+        * {
+            background-color: whitesmoke;
+        }
+
+        .productlogo {
+            display: block;
+            margin: auto;
+            width: 100%;
+            height: 100%;
+        }
+
+        #plogoId {
+            display: block;
+            margin: auto;
+            width: 100px;
+            height: auto;
+            align-items: center;
+        }
+
+        #taglineId {
+            display: block;
+            margin: auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        #leadform {
+            display: block;
+            margin: auto;
+            margin-top: 20px;
+            width: 50%;
+        }
+
+        #leadform h4 {
+            display: block;
+            color: black;
+            margin: auto;
+            width: 200px;
+        }
+
+        .para {
+            display: block;
+            color: rgb(192, 169, 169);
+            margin: auto;
+            width: 85%;
+        }
+        #leadform input {
+            border-radius: 5px;
+            background-color: white;
+            border-color: white;
+        }
+
+        #leadform label {
+            color: blueviolet;
+        }
+
+        .field {
+            display: block;
+            margin: auto;
+            width:  90%;
+            margin-top: 20px;
+        }
+        #occupationId {
+            display: block;
+            margin: auto;
+            width: 85%;
+            margin-top: 20px;
+            border-radius: 5px;
+            background-color: white;
+            border-color: white;
+            border: 1px;
+            box-shadow: 2px;
+            padding: 10px;
+            font-size: 15px;
+           
+        }
+
+        button {
+            display: block;
+            margin: auto;
+            margin-top: 16px;
+            background-color: white;
+            border-color: yellow;
+        }
+
+        input[type='text'] {
+            display: block;
+            margin: auto;
+            width: 80%;
+            background: lightsteelblue;
+            border: 1px;
+            box-shadow: 2px;
+            color: black;
+            background-color: rgb(142, 143, 223);
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        input[type='radio'] {
+            display: inline-block;
+            margin: auto;
+            width: 20%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
+        input[type='email'] {
+            display: block;
+            margin: auto;
+            width: 80%;
+            background: lightsteelblue;
+            border: 1px;
+            box-shadow: 2px;
+            color: black;
+            background-color: rgb(142, 143, 223);
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        input[type='number'] {
+            display: block;
+            margin: auto;
+            width: 80%;
+            background: lightsteelblue;
+            border: 1px;
+            box-shadow: 2px;
+            color: black;
+            background-color: rgb(142, 143, 223);
+            padding: 10px;
+            font-size: 15px;
+        }
+        
+
+        ::placeholder {
+            /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: rgb(192, 169, 169);
+            opacity: 1;
+            /* Firefox */
+        }
+        
+
+
+        .groupfield {
+            display: block;
+            width: 100%;
+            margin: auto;
+            align-content: center;
+            border-radius: 30px;
+            border-width: 2px;
+            border-color: rgb(143, 79, 202)
+        }
+
+        @media (max-width: 760px) {
+            .groupfield {
+                display: block;
+                margin: auto;
+                width: 90%;
+                align-content: center;
+            }
+
+            #plogoId {
+                display: block;
+                margin: auto;
+                width: 33%;
+                height: auto;
+                align-items: center;
+            }
+
+            .productlogo {
+                display: block;
+                margin: auto;
+                width: 50%;
+                height: 100%;
+            }
+
+            .field {
+                display: block;
+                margin: auto;
+                width: 90%;
+                align-content: center;
+                margin-top: 20px;
+            }
+
+            #leadform {
+                display: block;
+                margin: auto;
+                margin-top: 20px;
+                width: 90%;
+            }
+        }
+
+        .box {
+            display: inline-block;
+        }
+
+        .progress {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress>.inner {
+            position: absolute;
+            color: red;
+        }
+
+        .progress>svg {
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="productlogo"">
+        <img src="images/creditcardimage.png" alt="" id="plogoId">
+        <p class="tagline" id="taglineId">credit card</p>
+    </div>
+
+    <form action="" method="post" id="leadform">
+
+        <fieldset class="groupfield">
+            <h4 id="taglineId"></h4>
+            <div class="field">
+                <input type="text" placeholder="Full Name*" name="name" value="" id="fullnameId" required
+                    oninvalid="this.setCustomValidity('Please enter full name')" oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Mobile*" name="mobile" value="" id="mobileId" required maxlength="10"
+                    pattern="[0-9]{10}" oninvalid="this.setCustomValidity('Please enter valid mobile number')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="email" placeholder="Email*" name="email" value="" id="emailId" required
+                    oninvalid="this.setCustomValidity('Please enter valid email')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Pincode*" name="pincode" value="" id="pincodeId" maxlength="6"
+                    pattern="[0-9]{6}" required oninvalid="this.setCustomValidity('Please enter valid pincode')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="PAN*" name="pan" value="" id="panId" maxlength="10"
+                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required oninvalid="this.setCustomValidity('Please enter valid PAN number')"
+                    oninput="this.setCustomValidity('')"
+                    style="text-transform:uppercase" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Aadhaar*" name="aadhaar" value="" id="aadhaarId" maxlength="12"
+                    pattern="[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}" required oninvalid="this.setCustomValidity('Please enter valid aadhaar')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <select name="occupation" id="occupationId" style="color: rgb(192, 169, 169);;">
+                    <option value="occupation">Occupation*</option>
+                    <option value="self_employed">Self Employed</option>
+                    <option value="salaried">Salaried</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <p class="para">Are you using any credit card:</p>
+                <input type="radio" id="yesid" name="existingcc" value="Yes">
+                <label for="yesid" style="color: rgb(192, 169, 169);">Yes</label><br>
+                <input type="radio" id="npid" name="existingcc" value="No">
+                <label for="noid" style="color: rgb(192, 169, 169);">No</label><br>
+            </div>
+
+            <div class="field">
+                <input type="text" placeholder="Monthly Income*" name="income" value="" id="incomeId" required maxlength="10"
+                    pattern="[0-9]{10}" oninvalid="this.setCustomValidity('Please enter valid monthly income')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            
+
+            <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
+
+        </fieldset>
+
+        <script type="module" src="cc.bundle.js"></script>
+    </form>
+
+    
+</body>
+
+</html>
