@@ -3,14 +3,19 @@ const path = require('path');
 module.exports = {
   // The entry point file described above
   entry: {
-    app: path.join(__dirname, 'src', 'index.js'),
-    cc: path.join(__dirname, 'src', 'cc', 'cc.js')
+    firebase: path.join(__dirname, 'src', 'js', 'firebase.js'),
+    help: path.join(__dirname, 'src', 'js', 'helper.js'),
+    app: path.join(__dirname, 'src', 'js', 'index.js'),
+    cc: path.join(__dirname, 'src', 'js', 'cc.js'),
+    il: path.join(__dirname, 'src', 'js', 'instantloan.js'),
+    sa: path.join(__dirname, 'src', 'js', 'savingsaccount.js'),
+    da: path.join(__dirname, 'src', 'js', 'demat.js')
 
   },
   // The location of the build folder described above
   output: {
     // filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist', 'js'),
     filename: '[name].bundle.js',
   },
   // Optional and for development only. This provides the ability to
