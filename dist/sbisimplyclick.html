@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/aryo.png">
+    <title>Aryo</title>
+    <style>
+
+        * {
+            background-color: whitesmoke;
+        }
+
+        .section {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            margin-top: 30px;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            justify-content: space-evenly;
+        }
+        .row {
+            display: block;
+            margin: auto;
+            width: 100%;
+        }
+        .logo {
+            display: block;
+                margin: auto;
+                width: 33%;
+                height: auto;
+                align-items: center;
+                border-radius: 10px;
+        }
+
+        .taglineheader {
+            display: block;
+            margin: auto;
+            width: 400px;
+            height: 50px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .leadform {
+            display: block;
+            margin: auto;
+            width: 90%;
+            align-items: center;
+        }
+
+        .row-in {
+            display: block;
+            margin: auto;
+            background: rgb(234, 236, 240);
+            border: 1px;
+            width: 90%;
+            box-shadow: 2px;
+            color: black;
+            margin-top: 15px;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .groupfield {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            padding: 10px;
+            border-width: 0px;
+            justify-content: center;
+            justify-content: space-evenly;
+        }
+
+        button {
+            display: block;
+            margin: auto;
+            margin-top: 16px;
+            color: white;
+            background-color: #4285F4;
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="row">
+            <img class="logo" src="images/simplyclickcardimage.jpg" alt="">
+        </div>    
+        <div class="raw">
+            <h2 class="taglineheader">Get your simply click SBI Credit Card now!!</h2>
+        </div>
+        <div class="row">
+            <form action="" method="post" class="leadform" id="leadform">
+                <fieldset class="groupfield">
+                    <!-- <h4 id="taglineId"></h4> -->
+                    <div class="field">
+                        <input type="text" placeholder="Full Name*" name="name" value="" class="row-in" id="fullnameId" required
+                            oninvalid="this.setCustomValidity('Please enter full name')" oninput="this.setCustomValidity('')" />
+                    </div>
+                    <div class="field">
+                        <input type="text" placeholder="Mobile*" name="mobile" value="" class="row-in" id="mobileId" required maxlength="10"
+                            pattern="[0-9]{10}" oninvalid="this.setCustomValidity('Please enter valid mobile number')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+                    <div class="field">
+                        <input type="email" placeholder="Email*" name="email" value="" class="row-in" id="emailId" required
+                            oninvalid="this.setCustomValidity('Please enter valid email')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+                    <div class="field">
+                        <input type="text" placeholder="Pincode*" name="pincode" value="" class="row-in" id="pincodeId" maxlength="6"
+                            pattern="[0-9]{6}" required oninvalid="this.setCustomValidity('Please enter valid pincode')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+                    <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
+                </fieldset>
+            </form>
+        </div>
+    </section>
+    <script type="module" src="js/help.bundle.js"></script>
+    <script type="module" src="js/firebase.bundle.js"></script>
+    <script type="module" src="js/sc.bundle.js"></script>
+</body>
+</html>

@@ -10,7 +10,8 @@ pincode.addEventListener('input', function () {
 const db = _getFirestore();
 const rtdb = _getRtdb();
 const PROJ_CODE = new Map([ ["ESPR", 6]]);
-const PROJ_NAME = new Map([["ESPR", "Espresso"], ["FSDM", "Fisdom"], ["5PSA", "5Paisa"], ["PYTM", "Paytm"]]);
+const PROJ_NAME = new Map([["ESPR", "Espresso"], ["FSDM", "Fisdom"], ["5PSA", "5Paisa"],
+     ["PYTM", "Paytm"], ["ANGL", "Angel"], ["AXIS", ["Axis"]]]);
 const LEAD_CATEGORY = "Demat Account";
 
 const queryString = window.location.search;
@@ -21,6 +22,8 @@ const projCode = uid.substring(0, 4);
 const leadCat = uid.substring(4, 6);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
+const child = LEAD_CATEGORY + "/" + projectName;
+console.log("code ",child, "  ", projCode, " ", projectName);
 var mobile;
 
 function result(output) {
@@ -38,7 +41,7 @@ function result(output) {
     }
 }
 
-_isProjectOnHold(projectName, result);
+_isProjectOnHold(child, result);
 
 function getLink(link) {
     if (link != null) {
@@ -56,7 +59,7 @@ function callBack(output) {
     console.log("output ", output);
     if (output) {
         let subId = getSubId(mobile, projCode);
-        _getProjectLink(projectName, getLink);
+        _getProjectLink(child, getLink);
     }
     else {
         if (!alert("Something went wrong, please try again!!")){window.location.reload();}
@@ -78,6 +81,7 @@ function submitLead(e) {
         customerEmail: email,
         customerPincode: pincode,
         projectName: projectName,
+        subId: getSubId(mobile, projCode),
         leadCategory: LEAD_CATEGORY,
         aggregatorName: "",
         payoutState: "Not eligible",

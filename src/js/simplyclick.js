@@ -1,31 +1,18 @@
-
 import { _getCurrentFirebaseTime, _getFirestore, _getProjectLink, _getRtdb, _isProjectOnHold, _submitLead, _submitLeadWithCallBack } from './firebase'
 
-const pincode = document.getElementById('pincodeId');
-pincode.addEventListener('input', function () {
-    console.log(this.value.length);
-});
-
-//console.log("pincode " + pincode.val)
 const db = _getFirestore();
 const rtdb = _getRtdb();
-const PROJ_CODE = new Map([["FI00", 1], ["K811", 2], ["NIYX", 5], ["EQTS", 7], ["AXIS", 8]]);
-const PROJ_NAME = new Map([["FI00", "Fi"], ["K811", "Kotak 811"],
-     ["NIYX", "NiyoX"], ["EQTS", "Equitas"], ["AXIS", "Axis"]]);
-const LEAD_CATEGORY = "Savings Account";
 
+const PROJ_CODE = "C"
+const PROJ_NAME = "Simply click";
+const LEAD_CATEGORY = "Credit Card";
+var mobile;
 const queryString = window.location.search;
-console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
-const projCode = uid.substring(0, 4);
-const leadCat = uid.substring(4, 6);
-const id = uid.substring(6, uid.length);
-const projectName = PROJ_NAME.get(projCode);
-const child = LEAD_CATEGORY + "/" + projectName;
-var mobile;
-console.log("param : " + uid + " " + projCode + " " + leadCat + " " + projectName);
-console.log("ARYO Leads");
+const id = uid.substring(0, uid.length);
+const child = LEAD_CATEGORY + "/" + PROJ_NAME;
+console.log("uid :", id);
 
 function result(output) {
     console.log("onHold : " + output);
@@ -33,11 +20,11 @@ function result(output) {
         let submitButton = document.getElementById('submitleadId');
         submitButton.disabled = true;
         submitButton.value = "On Hold";
-        if (!alert("Currently we  are on hold, please come back after sometime")){window.location.reload();}
+        if(!alert('Currently we  are on hold, please come back after sometime')){window.location.reload();}
         return;
     }
     else if (output == null) {
-        if (!alert("Something went wrong, please try refersh !!")){window.location.reload();}
+       if(!alert("Something went wrong, please try refersh !!")){window.location.reload();}
         return;
     }
 }
@@ -46,7 +33,7 @@ _isProjectOnHold(child, result);
 
 function getLink(link) {
     if (link != null) {
-        let subId = getSubId(mobile, projCode);
+        let subId = getSubId(mobile);
         let _link = link.replace("{aryoId}", subId);
         console.log("link :" + _link)
         window.open(_link, "_self");
@@ -56,16 +43,17 @@ function getLink(link) {
         return;
     }
 }
+
 function callBack(output) {
     console.log("output ", output);
     if (output) {
-        let subId = getSubId(mobile, projCode);
         _getProjectLink(child, getLink);
     }
     else {
         if (!alert("Something went wrong, please try again!!")){window.location.reload();}
     }
 }
+
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
 function submitLead(e) {
@@ -81,9 +69,9 @@ function submitLead(e) {
         customerMobile: mobile,
         customerEmail: email,
         customerPincode: pincode,
-        projectName: projectName,
+        projectName: PROJ_NAME,
+        subId: getSubId(mobile),
         leadCategory: LEAD_CATEGORY,
-        subId: getSubId(mobile, projCode),
         aggregatorName: "",
         payoutState: "Not eligible",
         status: "In process",
@@ -93,11 +81,11 @@ function submitLead(e) {
         remarks: "",
         eligibleForPayout: false
     };
-
     _submitLeadWithCallBack(lead, id, callBack);
 }
 
-function getSubId(mobile, projCode) {
-    console.log(PROJ_CODE, " ", projCode);
-    return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
+function getSubId(mobile) {
+    console.log(PROJ_CODE);
+    return (PROJ_CODE + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }
+

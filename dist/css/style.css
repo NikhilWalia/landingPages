@@ -37,6 +37,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             left: 33%;
             top:50%;
             border: 1px solid #962d2d;
@@ -45,6 +46,17 @@
             width: 33%;
             height: 20%;
             font-size: 8px;
+        }
+        #okimgId, #errimgId {
+            display: block;
+            margin: auto;
+            width: 45px;
+            height: 45px;
+        }
+        #okbtnId {
+            display: block;
+            margin: auto;
+            width: 33%;
         }
 
         .loader {
@@ -74,16 +86,18 @@
         #plogoId {
             display: block;
             margin: auto;
-            width: 80%;
+            width: 33%;
+            margin-top: 100px;
             height: auto;
             align-items: center;
-            border-radius: 10px;
+            border-radius: 0px;
         }
 
         #taglineId {
             display: block;
             margin: auto;
             width: 100%;
+            margin-top: 10px;
             text-align: center;
         }
 
@@ -210,10 +224,10 @@
             #plogoId {
                 display: block;
                 margin: auto;
-                width: 90%;
+                width: 50%;
                 height: auto;
                 align-items: center;
-                border-radius: 10px;
+                border-radius: 0px;
             }
 
             .productlogo {

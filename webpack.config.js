@@ -9,7 +9,10 @@ module.exports = {
     cc: path.join(__dirname, 'src', 'js', 'cc.js'),
     il: path.join(__dirname, 'src', 'js', 'instantloan.js'),
     sa: path.join(__dirname, 'src', 'js', 'savingsaccount.js'),
-    da: path.join(__dirname, 'src', 'js', 'demat.js')
+    da: path.join(__dirname, 'src', 'js', 'demat.js'),
+    cr: path.join(__dirname, 'src', 'js', 'crypto.js'),
+    sc: path.join(__dirname, 'src', 'js', 'simplyclick.js')
+
 
   },
   // The location of the build folder described above

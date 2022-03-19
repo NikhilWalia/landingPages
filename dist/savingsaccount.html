@@ -13,7 +13,7 @@
 <body>
     <div class="productlogo"">
         <img src="" alt="" id="plogoId">
-        <!-- <p class="tagline" id="taglineId"></p> -->
+        <p class="tagline" id="taglineId"></p>
     </div>
     
     <form action="" method="post" id="leadform">
@@ -49,24 +49,31 @@
             console.log(queryString);
             const urlParams = new URLSearchParams(queryString);
             let uid = urlParams.get("uid");
-            console.log("uid is  ->:", uid);
 
             const projectCode = uid.substring(0, 6);
             console.log("projectCode ", projectCode);
             let logo = document.getElementById('plogoId');
-            // let mtag = document.getElementById('taglineId');
+            let mtag = document.getElementById('taglineId');
         
             if (projectCode == 'NIYXSA'){
-                logo.src = "images/niyox_web_lp.png";
-                // mtag.innerHTML = "Open Niyox savings account for free";
+                logo.src = "images/niyox.png";
+                mtag.innerHTML = "Open Niyox Savings Account online!";
             }
             else if (projectCode == 'K811SA'){
-                logo.src = "images/kotak_web_lp.png";
-                // mtag.innerHTML = "Open Kotak 811 savings account for free";
+                logo.src = "images/kotak.png";
+                mtag.innerHTML = "Open Kotak 811 Savings Account online!";
             }
             else if (projectCode == 'FI00SA'){
-                logo.src = "images/fi_web_lp.png";
-                // mtag.innerHTML = "Open Fi savings account for free";
+                logo.src = "images/fi.png";
+                mtag.innerHTML = "Open a Fi Savings Account online!";
+            }
+            else if (projectCode == 'EQTSSA'){
+                logo.src = "images/equitaslogo.png";
+                mtag.innerHTML = "Open Equitas Savings Account online!";
+            }
+            else if (projectCode == 'AXISSA'){
+                logo.src = "images/axisbanklogo.png";
+                mtag.innerHTML = "Open Axis Bank Savings Account online!";
             }
             
         </script>

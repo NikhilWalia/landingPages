@@ -43,49 +43,9 @@
 
         </fieldset>
 
-        <script>
-
-            const queryString = window.location.search;
-            console.log(queryString);
-            const urlParams = new URLSearchParams(queryString);
-            let uid = urlParams.get("uid");
-            console.log("uid is  ->:", uid);
-
-            const projectCode = uid.substring(0, 6);
-            console.log("projectCode ", projectCode);
-            let logo = document.getElementById('plogoId');
-            let mtag = document.getElementById('taglineId');
-            
-            if (projectCode == 'PYTMDA'){
-                logo.src = "images/paytmlogo.jpg";
-                mtag.innerHTML = "Open Paytm Money Demat account for free!";
-            }
-            else if (projectCode == '5PSADA'){
-                logo.src = "images/5paisa.png";
-                mtag.innerHTML = "Open 5 Paisa Demat account for free!";
-            }
-            else if (projectCode == 'ESPRDA') {
-                logo.src = "images/espressologo.png";
-                mtag.innerHTML = "Open Espresso Demat account for free!";
-            }
-            else if (projectCode == 'FSDMDA') {
-                logo.src = "images/fisdomlogo.png";
-                mtag.innerHTML = "Open Fisdom Demat account for free!";
-            }
-            else if (projectCode == 'ANGLDA') {
-                logo.src = "images/angeldemat.png";
-                mtag.innerHTML = "Open Angel Demat account for free!";
-            }
-            else if (projectCode == 'AXISDA') {
-                logo.src = "images/axisdematlogo.png";
-                mtag.innerHTML = "Open Axis Demat account for free!";
-            }
-            
-        </script>
-
         <script type="module" src="js/help.bundle.js"></script>
         <script type="module" src="js/firebase.bundle.js"></script>
-        <script type="module" src="js/da.bundle.js"></script>
+        <script type="module" src="js/cr.bundle.js"></script>
     </form>
 
     

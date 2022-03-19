@@ -1,30 +1,32 @@
-import { _getFirestore, _getRtdb, _getCurrentFirebaseTime, _submitLead, _isProjectOnHold } from './firebase';
+import { _getFirestore, _getRtdb, _getCurrentFirebaseTime,
+     _submitLead, _isProjectOnHold, _submitLeadWithCallBack,
+     _getProjectLink } from './firebase';
 import { pancardValidation } from './helper'
 
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
-const PROJ_NAME = new Map([["KB00", "KreditBee"], ["ASPR", "Aspire"]]);
-const LEAD_CATEGORY = new Map([["IL", "Instant loan"], ["BP", "BNPL"]]);
+const PROJ_NAME = new Map([["KB00", "KreditBee"]]);
+const LEAD_CATEGORY = "Instant loan";
 
 const queryString = window.location.search;
 console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
-const id = uid.substring(4, uid.length);
+const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const leadCat = LEAD_CATEGORY.get(uid.substring(4, 6));
-
+const child = LEAD_CATEGORY + "/" + projectName;
 let logo = document.getElementById('plogoId');
 // let mtag = document.getElementById('taglineId');
 if (projCode == 'KB00') {
-    logo.src = "images/kreditbee_web_lp.png";
-    // mtag.innerHTML = "Instant loan";
+    logo.src = "images/kreditbeelogo.png";
+    // mtag.innerHTML = "Get an Instant loan in 2 min!";
 }
 else if (projCode == 'ASPR') {
     logo.src = "images/aspirebanner.png"
-    mtag.innerHTML = "BNPL";
+    // mtag.innerHTML = "BNPL";
 }
 
 function output(output) {
@@ -42,7 +44,7 @@ function output(output) {
     }
 }
 
-_isProjectOnHold(projectName, output);
+_isProjectOnHold(child, output);
 
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
@@ -71,7 +73,7 @@ function submitLead(e) {
         customerPincode: pincode,
         customerPan: pan,
         projectName: projectName,
-        leadCategory: leadCat,
+        leadCategory: LEAD_CATEGORY,
         aggregatorName: "",
         payoutState: "Not eligible",
         status: "In process",
@@ -81,6 +83,25 @@ function submitLead(e) {
         remarks: "",
         eligibleForPayout: false
     }
-    _submitLead(lead, id);
+    _submitLeadWithCallBack(lead, id, callBack);
 }
 
+function callBack(output) {
+    console.log("output ", output);
+    if (output) {
+        _getProjectLink(child, getLink);
+    }
+    else {
+        if (!alert("Something went wrong, please try again!!")){window.location.reload();}
+    }
+}
+
+function getLink(link) {
+    if (link != null) {
+        window.open(link, "_self");
+    }
+    else {
+        if (!alert('Something went wrong, please try again!')){window.location.reload();}
+        return;
+    }
+}
