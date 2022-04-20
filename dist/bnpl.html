@@ -8,7 +8,6 @@
     <title>Aryo</title>
     <link rel="icon" href="images/aryo.png">
     <link rel="stylesheet" href="css/style.css">
-    
 </head>
 
 <body>
@@ -16,12 +15,14 @@
         <img src="" alt="" id="plogoId">
         <p class="tagline" id="taglineId"></p>
     </div>
-    
+    <div class="eligiblecities">
+        <p style="text-align: center;">Eligible States :</p>
+        <p style="text-align: center;">Maharashtra, Karnataka, Tamil Nadu, Andhra Pradesh, Telangana</p> 
+    </div>
     <form action="" method="post" id="leadform">
 
         <fieldset class="groupfield">
             <!-- <h4 id="taglineId"></h4> -->
-
             <div class="field">
                 <input type="text" placeholder="Full Name*" name="name" value="" id="fullnameId" required
                     oninvalid="this.setCustomValidity('Please enter full name')" oninput="this.setCustomValidity('')" />
@@ -41,7 +42,6 @@
                     pattern="[0-9]{6}" required oninvalid="this.setCustomValidity('Please enter valid pincode')"
                     oninput="this.setCustomValidity('')" />
             </div>
-        
             <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
 
         </fieldset>
@@ -52,42 +52,22 @@
             console.log(queryString);
             const urlParams = new URLSearchParams(queryString);
             let uid = urlParams.get("uid");
+            console.log("uid is  ->:", uid);
 
             const projectCode = uid.substring(0, 6);
             console.log("projectCode ", projectCode);
             let logo = document.getElementById('plogoId');
             let mtag = document.getElementById('taglineId');
-        
-            if (projectCode == 'NIYXSA'){
-                logo.src = "images/niyox.png";
-                mtag.innerHTML = "Open Niyox Savings Account online!";
-            }
-            else if (projectCode == 'K811SA'){
-                logo.src = "images/kotak.png";
-                mtag.innerHTML = "Open Kotak 811 Savings Account online!";
-            }
-            else if (projectCode == 'FI00SA'){
-                logo.src = "images/fi.png";
-                mtag.innerHTML = "Open a Fi Savings Account online!";
-            }
-            else if (projectCode == 'EQTSSA'){
-                logo.src = "images/equitaslogo.png";
-                mtag.innerHTML = "Open Equitas Savings Account online!";
-            }
-            else if (projectCode == 'AXISSA'){
-                logo.src = "images/axisbanklogo.png";
-                mtag.innerHTML = "Open Axis Bank Savings Account online!";
-            }
-            else if (projectCode == 'AUSFSA'){
-                logo.src = "images/aulogo.png";
-                mtag.innerHTML = "Open AU Small Finance Bank Savings Account online!";
-            }
             
+            if (projectCode == 'ASPRBP'){
+                logo.src = "images/aspirelogo.png";
+                mtag.innerHTML = "Get Aspire digital card for free!";
+            }
         </script>
 
         <script type="module" src="js/help.bundle.js"></script>
         <script type="module" src="js/firebase.bundle.js"></script>
-        <script type="module" src="js/sa.bundle.js"></script>
+        <script type="module" src="js/bnpl.bundle.js"></script>
     </form>
 
     

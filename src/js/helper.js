@@ -5,3 +5,5 @@ export const pancardValidation = (text) => {
     }
     return false;
 }
+
+export const ONHOLD = ["Citi"];

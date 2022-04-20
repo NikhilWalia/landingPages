@@ -11,7 +11,9 @@ module.exports = {
     sa: path.join(__dirname, 'src', 'js', 'savingsaccount.js'),
     da: path.join(__dirname, 'src', 'js', 'demat.js'),
     cr: path.join(__dirname, 'src', 'js', 'crypto.js'),
-    sc: path.join(__dirname, 'src', 'js', 'simplyclick.js')
+    sc: path.join(__dirname, 'src', 'js', 'simplyclick.js'),
+    citi: path.join(__dirname, 'src', 'js', 'citicards.js'),
+    bnpl: path.join(__dirname, 'src', 'js', 'bnpl.js')
 
 
   },

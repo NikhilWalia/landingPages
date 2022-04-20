@@ -32,6 +32,7 @@
             }
         }
 
+    
         .errormsg, .successmsg{
             position: absolute;
             display: flex;
@@ -47,6 +48,7 @@
             height: 20%;
             font-size: 8px;
         }
+
         #okimgId, #errimgId {
             display: block;
             margin: auto;
@@ -76,6 +78,23 @@
         /* loader end*/
 
 
+        .cclogo {
+            display: block;
+            margin: auto;
+            height: 100px;
+            width: 170px;
+            margin-top: 20px;
+        }
+
+        .ccproductlogo {
+            display: block;
+            margin: auto;
+            height: auto;
+            width: 30%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
         .productlogo {
             display: block;
             margin: auto;
@@ -83,6 +102,19 @@
             height: 100%;
         }
 
+        .video {
+            display: flex;
+            justify-content: center;
+        }
+
+        .eligiblecities {
+        
+            display: block;
+            margin: auto;
+            width: 50%;
+            margin-top: 20px;
+            text-align: center;
+        }
         #plogoId {
             display: block;
             margin: auto;
@@ -137,7 +169,20 @@
             box-shadow: 2px;
             padding: 10px;
             font-size: 15px;
+        }
 
+        .citylist {
+            display: block;
+            margin: auto;
+            width: 90%;
+            margin-top: 20px;
+            border-radius: 5px;
+            background-color: white;
+            border-color: white;
+            border: 1px;
+            box-shadow: 2px;
+            padding: 10px;
+            font-size: 15px;
         }
 
         .field {
@@ -236,6 +281,27 @@
                 width: 100%;
                 height: 100%;
             }
+
+           .cclogo {
+            display: block;
+            margin: auto;
+            height: 75px;
+            width: 120px;
+            margin-top: 20px;
+        }
+
+        .taglineheader {
+            font-size: 16px;
+        }
+        .ccproductlogo {
+            display: block;
+            margin: auto;
+            height: auto;
+            width: 60%;
+            font-size: 13px;
+            margin-top: 20px;
+            text-align: center;
+        }
 
             .field {
                 display: block;
