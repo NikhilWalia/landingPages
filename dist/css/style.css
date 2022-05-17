@@ -157,7 +157,7 @@
             color: blueviolet;
         }
 
-        #occupationId {
+        .dropdown {
             display: block;
             margin: auto;
             width: 90%;
@@ -190,6 +190,13 @@
             margin: auto;
             width: 400px;
             margin-top: 20px;
+        }
+
+        .giottuscopuon {
+            display: block;
+            margin: auto;
+            width: 50%;
+            text-align: center;
         }
 
         button {
@@ -257,6 +264,65 @@
             /* border-color: #4285F4 */
         }
 
+    
+         .tooltiptext {
+            visibility: hidden;
+            width: 140px;
+            display: block;
+            margin: auto;
+          }
+          
+          .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+          }
+          
+          .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+          }
+
+          .copycouponbtn {
+            display: block;
+            margin: auto;
+            margin-top: 1px;
+            color: black;
+            background-color: white;
+            border-radius: 5px;
+          }
+
+          .coupon {
+            margin-top: 0rem;
+            text-align: center;
+            font-size: 20px;
+            width: 60%;
+            color: black;
+            border-color: grey;
+            border-width: .2px;
+            border-style: dashed;
+            font-family: monospace;
+            background-color: aqua;
+            margin-bottom: 0rem!important;
+        }
+
+        .coupondiv {
+            margin-top: 1rem;
+            display: inline-flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .copyimg {
+            height: 30px;
+            width: 30px;
+        }
+
         @media (max-width: 760px) {
             .groupfield {
                 display: block;
@@ -269,7 +335,8 @@
             #plogoId {
                 display: block;
                 margin: auto;
-                width: 50%;
+                margin-top: 20px;
+                width: 25%;
                 height: auto;
                 align-items: center;
                 border-radius: 0px;
@@ -317,6 +384,40 @@
                 margin-top: 20px;
                 width: 90%;
             }
+              
+            .coupon {
+                margin-top: 0rem;
+                text-align: center;
+                font-size: 20px;
+                width: 60%;
+                color: black;
+                border-color: grey;
+                border-width: .2px;
+                border-style: dashed;
+                font-family: monospace;
+                background-color: aqua;
+                margin-bottom: 0rem!important;
+            }
+
+              .tooltiptext {
+                visibility: hidden;
+              }
+              
+              .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+              }
+              
+              .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+              }
         }
 
         .box {
@@ -340,5 +441,12 @@
         .progress>svg {
             height: 100%;
             display: block;
+        }
+
+        .giottuscopuon {
+            display: block;
+            margin: auto;
+            width: 50%;
+            text-align: center;
         }
     

@@ -1,61 +1,36 @@
 import { _getFirestore, _getRtdb, _getCurrentFirebaseTime,
     _submitLead, _isProjectOnHold, _submitLeadWithCallBack,
     _getProjectLink } from './firebase';
-import { ONHOLD } from './helper'
+import { pancardValidation, ONHOLD } from './helper'
 
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
-const PROJ_NAME = new Map([["MDRX", "Mudrex"], ["GOTS", "Giottus"]]);
-const LEAD_CATEGORY = "Crypto";
+const PROJ_NAME = new Map([["IIFL", "India Infoline"]]);
+const LEAD_CATEGORY = "Personal loan";
 
 const queryString = window.location.search;
 console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
-const id = uid.substring(4, uid.length);
+const projectCode = uid.substring(0, 6);
+const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
-
 const child = LEAD_CATEGORY + "/" + projectName;
-
-if (ONHOLD.includes(projCode)){
-    console.log("onhold")
-    let lead = document.getElementById('leadform');
-    let mtag = document.getElementById('taglineId');
-    lead.style.visibility = 'hidden';
-    mtag.innerHTML = "Currently we are on hold, please visit us later!";
-}
-
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
-if (projCode == 'MDRX') {
-   logo.src = "images/mudraxlogo.png";
-   mtag.innerHTML = "Open Mudraex crypto account for free!";
-} else if (projCode == 'GOTS') {
-    let divGiottusCoupon = document.getElementById('giottuscopuonId');
-    divGiottusCoupon.style.display = "block";
-    logo.src = "images/giottus.png";
-   mtag.innerHTML = "Open Giottus crypto account for free!";
+if (projCode == 'IIFL') {
+   logo.src = "images/iifllogo.png";
+   mtag.innerHTML = "Apply for a personal loan from IIFL!";
 }
 
-
-function output(output) {
-   console.log("output : " + output);
-   if (output == true) {
-       let submitButton = document.getElementById('submitleadId');
-       submitButton.disabled = true;
-       submitButton.value = "On Hold";
-       if (!alert("Currently we  are on hold, please come back after sometime")){window.location.reload();}
-       return;
-   }
-   else if (output == null){
-       if (!alert("Something went wrong, please try refersh !!")){window.location.reload();}
-       return;
-   }
+if (ONHOLD.includes(projectCode)){
+   let lead = document.getElementById('leadform');
+   let mtag = document.getElementById('taglineId');
+   lead.style.visibility = 'hidden';
+   mtag.innerHTML = "Currently we are on hold, please visit us later!";
 }
-
-_isProjectOnHold(child, output);
 
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
@@ -66,12 +41,18 @@ function submitLead(e) {
    let mobile = document.querySelector('#mobileId').value;
    let email = document.querySelector('#emailId').value;
    let pincode = document.querySelector('#pincodeId').value;
-   console.log(name, " ", mobile, " ", email, " ", pincode);
+   let pan = document.querySelector('#panId').value;
+   if (!pancardValidation(pan)) {
+       alert("Please enter valid pan number");
+       return;
+   }
+
    const lead = {
        customerName: name,
        customerMobile: mobile,
        customerEmail: email,
        customerPincode: pincode,
+       customerPan: pan,
        projectName: projectName,
        leadCategory: LEAD_CATEGORY,
        aggregatorName: "",
@@ -82,7 +63,7 @@ function submitLead(e) {
        dateOfSubmission: _getCurrentFirebaseTime(),
        remarks: "",
        eligibleForPayout: false
-   };
+   }
    _submitLeadWithCallBack(lead, id, callBack);
 }
 

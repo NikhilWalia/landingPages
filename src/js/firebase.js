@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, addDoc, Timestamp, query, where, setDoc, doc, DocumentReference } from 'firebase/firestore'
+import { getFirestore, collection, getDocs, addDoc, Timestamp, query, where, setDoc, doc, DocumentReference, updateDoc } from 'firebase/firestore'
 import { getDatabase, ref, child, get } from 'firebase/database'
 
 const firebaseConfig = {
@@ -25,11 +25,11 @@ export const _getRtdb = () => { return rtdb; }
 export const _getCurrentFirebaseTime = () => { return Timestamp.now().toDate(); }
 
 export const _getProjectLink = (projName, callBack) => {
-    console.log("link at ", projName);
+    // console.log("link at ", projName);
     get(child(rtdb, `${projName}/LINK`)).then((snapshot) => {
 
         if (snapshot.exists()) {
-            console.log("links -> ",snapshot.val());
+            // console.log("links -> ", snapshot.val());
             callBack(snapshot.val());
         } else {
             callBack(null);
@@ -39,46 +39,49 @@ export const _getProjectLink = (projName, callBack) => {
     });
 }
 
-export const _submitLeadWithCallBack = (lead, id, callBack) => {
+export const _submitLeadWithCallBack = async (lead, id, callBack) => {
     const divLoader = document.createElement("div");
     divLoader.className = "loader";
     document.body.appendChild(divLoader);
     //check if lead already exist
     const leadRef = collection(db, `/AryoDB/${id}/LeadsDB`);
-
+    // console.log("projectname ", lead.projectName, " mobile ", lead.customerMobile)
     const q = query(leadRef, where("projectName", "==", lead.projectName)
         , where("customerMobile", "==", lead.customerMobile));
-    const querySnapshot = getDocs(q).then(docs => {
-        console.log("size ", docs.size);
-        if (docs.size > 0) {
-            docs.forEach(d => {
-                const dRef = doc(collection(db, `/AryoDB/${id}/LeadsDB`), `${d.id}`);
-                console.log("dRef ", dRef);
-                setDoc(dRef, lead).then((docRef) => {
-                    console.log("Document updated with ID: ", docRef);
+    const querySnapshot = await getDocs(q);
+    // console.log("querySnapshot1 ", querySnapshot1.size)
+    if (querySnapshot.size > 0) {
+        querySnapshot.forEach((docRef) => {
+            console.log("-> ", docRef.id, " => ", docRef.data());
+            const leadDocRef = doc(db, `/AryoDB/${id}/LeadsDB`, `${docRef.id}`);
+            updateDoc(leadDocRef,
+                {
+                    customerName: lead.customerName,
+                    customerEmail: lead.customerEmail,
+                    customerPincode: lead.customerPincode,
+                }
+            ).then(_doc=>{
+                // console.log("Document updated with ID: dref ", docRef.id)
+                callBack(true);
+            })
+        });
+    } else {
+        try {
+            const leadsCol = collection(db, `/AryoDB/${id}/LeadsDB`);
+            addDoc(leadsCol, lead)
+                .then((docRef) => {
+                    // console.log("Document written with ID: ", docRef.id);
                     divLoader.remove();
                     //show successfull message
                     callBack(true);
-                })
-            })
-
-        } else {
-            try {
-                const leadsCol = collection(db, `/AryoDB/${id}/LeadsDB`);
-                addDoc(leadsCol, lead)
-                    .then((docRef) => {
-                        console.log("Document written with ID: ", docRef.id);
-                        divLoader.remove();
-                        //show successfull message
-                        callBack(true);
-                    });
-            }
-            catch (err) {
-                console.log(err);
-                callBack(false);
-            }
+                });
         }
-    })
+        catch (err) {
+            // console.log(err);
+            callBack(false);
+        }
+    }
+    // })
 
 }
 
@@ -92,7 +95,7 @@ export const _submitLead = (lead, id) => {
         const leadsCol = collection(db, `/AryoDB/${id}/LeadsDB`);
         addDoc(leadsCol, lead)
             .then((docRef) => {
-                console.log("Document written with ID: ", docRef.id);
+                // console.log("Document written with ID: ", docRef.id);
                 divLoader.remove();
                 //show successfull message
                 const successDiv = document.createElement('div');
@@ -109,7 +112,7 @@ export const _submitLead = (lead, id) => {
             });
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         const errDiv = document.createElement('div');
         errDiv.className = "errormsg";
         let h2 = document.createElement('h2');
@@ -126,10 +129,10 @@ export const _submitLead = (lead, id) => {
 }
 
 export const _isProjectOnHold = (name, callBack) => {
-    console.log("_isProjectOnHold projName " + name);
+    // console.log("_isProjectOnHold projName " + name);
     get(child(rtdb, `${name}/ONHOLD`)).then((snapshot) => {
         if (snapshot.exists()) {
-            console.log(snapshot.val());
+            // console.log(snapshot.val());
             callBack(snapshot.val());
         } else {
             callBack(null);

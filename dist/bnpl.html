@@ -32,16 +32,38 @@
                     pattern="[0-9]{10}" oninvalid="this.setCustomValidity('Please enter valid mobile number')"
                     oninput="this.setCustomValidity('')" />
             </div>
+        
             <div class="field">
-                <input type="email" placeholder="Email*" name="email" value="" id="emailId" required
-                    oninvalid="this.setCustomValidity('Please enter valid email')"
+                <select name="occupation" class="dropdown" id="occupationId">
+                    <option value="Occupation">Occupation*</option>
+                    <option value="Self Employed">Self Employed</option>
+                    <option value="Salaried">Salaried</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <input type="number" placeholder="Monthly Income*" name="income" value="" id="incomeId" required
+                    oninvalid="this.setCustomValidity('Please enter valid monthly income')"
                     oninput="this.setCustomValidity('')" />
             </div>
+
             <div class="field">
                 <input type="text" placeholder="Pincode*" name="pincode" value="" id="pincodeId" maxlength="6"
                     pattern="[0-9]{6}" required oninvalid="this.setCustomValidity('Please enter valid pincode')"
                     oninput="this.setCustomValidity('')" />
             </div>
+
+            <div class="field">
+                <select name="state" class="dropdown" id="stateId">
+                    <option value="State">State*</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Telangana">Telangana</option>
+                </select>
+            </div>
+
             <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
 
         </fieldset>

@@ -1,57 +1,56 @@
 import { _getCurrentFirebaseTime, _getFirestore, _getProjectLink, _getRtdb, _isProjectOnHold, _submitLead, _submitLeadWithCallBack } from './firebase'
-import { ONHOLD } from './helper';
 
-const pincode = document.getElementById('pincodeId');
-pincode.addEventListener('input', function () {
-    console.log(this.value.length);
-});
+const db = _getFirestore();
+const rtdb = _getRtdb();
 
-const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"]]);
-const PROJ_NAME = new Map([["ESPR", "Espresso"], ["FSDM", "Fisdom"], ["5PSA", "5Paisa"],
-     ["PYTM", "Paytm"], ["ANGL", "Angel"], ["AXIS", "Axis Securities"], ["SAS0", "Sas Online"]]);
-const LEAD_CATEGORY = "Demat Account";
-
+const PROJ_NAME = new Map([["sbiss", "Simply save"], ["icici", "ICICI"], ["sbisc", "Simply click"]])
+const PROJ_CODE = new Map([["sbiss", 'S'], ["icici", 'I'], ["sbisc", 'C'] ]);
+const LEAD_CATEGORY = "Credit Card";
+var mobile;
 const queryString = window.location.search;
-console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
-const projCode = uid.substring(0, 4);
-const projectCode = uid.substring(0, 6);
-const id = uid.substring(6, uid.length);
+const projCode = uid.substring(0, 5);
+const id = uid.substring(5, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
-console.log("code ",child, "  ", projCode, " ", projectName);
-var mobile;
+console.log("uid :", id);
 
-if (ONHOLD.includes(projectCode)){
-    console.log("onhold")
-    let lead = document.getElementById('leadform');
-    let mtag = document.getElementById('taglineId');
-    lead.style.visibility = 'hidden';
-    mtag.innerHTML = "Currently we are on hold, please visit us later!";
+let logo = document.getElementById('plogoId');
+let mtag = document.getElementById('taglineId');
+
+if (projCode == 'sbisc') {
+    logo.src = "images/simplyclickcardimage.jpg";
+    mtag.innerHTML = "Get Your SBI Simply Click Card Now!";
+}
+else if (projCode == 'sbiss') {
+    logo.src = "images/simplysave.jpg"
+    mtag.innerHTML = "Get Your SBI Simply Save Card Now!";
+} else if (projCode === 'icici') {
+    logo.src = "images/icicilogo.png";
+    mtag.innerHTML = "Get Your ICICI Credit Card Now!";
 }
 
-// function result(output) {
-//     console.log("onHold : " + output);
-//     if (output == true) {
-    
-//         let submitButton = document.getElementById('submitleadId');
-//         submitButton.disabled = true;
-//         submitButton.value = "On Hold";
-//         if(!alert('Currently we  are on hold, please come back after sometime')){window.location.reload();}
-//         return;
-//     }
-//     else if (output == null) {
-//        if(!alert("Something went wrong, please try refersh !!")){window.location.reload();}
-//         return;
-//     }
-// }
+function result(output) {
+    console.log("onHold : " + output);
+    if (output == true) {
+        let submitButton = document.getElementById('submitleadId');
+        submitButton.disabled = true;
+        submitButton.value = "On Hold";
+        if(!alert('Currently we  are on hold, please come back after sometime')){window.location.reload();}
+        return;
+    }
+    else if (output == null) {
+       if(!alert("Something went wrong, please try refersh !!")){window.location.reload();}
+        return;
+    }
+}
 
-// _isProjectOnHold(child, result);
+_isProjectOnHold(child, result);
 
 function getLink(link) {
     if (link != null) {
-        let subId = getSubId(mobile, projCode);
+        let subId = getSubId(mobile);
         let _link = link.replace("{aryoId}", subId);
         console.log("link :" + _link)
         window.open(_link, "_self");
@@ -65,13 +64,13 @@ function getLink(link) {
 function callBack(output) {
     console.log("output ", output);
     if (output) {
-        let subId = getSubId(mobile, projCode);
         _getProjectLink(child, getLink);
     }
     else {
         if (!alert("Something went wrong, please try again!!")){window.location.reload();}
     }
 }
+
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
 function submitLead(e) {
@@ -88,7 +87,7 @@ function submitLead(e) {
         customerEmail: email,
         customerPincode: pincode,
         projectName: projectName,
-        subId: getSubId(mobile, projCode),
+        subId: getSubId(mobile),
         leadCategory: LEAD_CATEGORY,
         aggregatorName: "",
         payoutState: "Not eligible",
@@ -102,7 +101,7 @@ function submitLead(e) {
     _submitLeadWithCallBack(lead, id, callBack);
 }
 
-function getSubId(mobile, projCode) {
-    console.log("subId :", PROJ_CODE.get(projCode));
+function getSubId(mobile) {
     return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }
+

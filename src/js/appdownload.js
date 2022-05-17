@@ -6,56 +6,33 @@ import { ONHOLD } from './helper'
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
-const PROJ_NAME = new Map([["MDRX", "Mudrex"], ["GOTS", "Giottus"]]);
-const LEAD_CATEGORY = "Crypto";
+const PROJ_CODE = new Map([ ["IMBL", "R"]]);
+const PROJ_NAME = new Map([["IMBL", "iMobile"]]);
+const LEAD_CATEGORY = "App download";
 
 const queryString = window.location.search;
 console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
-const id = uid.substring(4, uid.length);
+const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
-
 const child = LEAD_CATEGORY + "/" + projectName;
-
-if (ONHOLD.includes(projCode)){
-    console.log("onhold")
-    let lead = document.getElementById('leadform');
-    let mtag = document.getElementById('taglineId');
-    lead.style.visibility = 'hidden';
-    mtag.innerHTML = "Currently we are on hold, please visit us later!";
-}
+var mobile;
 
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
-if (projCode == 'MDRX') {
-   logo.src = "images/mudraxlogo.png";
-   mtag.innerHTML = "Open Mudraex crypto account for free!";
-} else if (projCode == 'GOTS') {
-    let divGiottusCoupon = document.getElementById('giottuscopuonId');
-    divGiottusCoupon.style.display = "block";
-    logo.src = "images/giottus.png";
-   mtag.innerHTML = "Open Giottus crypto account for free!";
+if (projCode == 'IMBL') {
+   logo.src = "images/imobilelogo.png";
+   mtag.innerHTML = "Manage all your Banking services with iMobile pay App!";
 }
 
-
-function output(output) {
-   console.log("output : " + output);
-   if (output == true) {
-       let submitButton = document.getElementById('submitleadId');
-       submitButton.disabled = true;
-       submitButton.value = "On Hold";
-       if (!alert("Currently we  are on hold, please come back after sometime")){window.location.reload();}
-       return;
-   }
-   else if (output == null){
-       if (!alert("Something went wrong, please try refersh !!")){window.location.reload();}
-       return;
-   }
+if (ONHOLD.includes(projCode)){
+   let lead = document.getElementById('leadform');
+   let mtag = document.getElementById('taglineId');
+   lead.style.visibility = 'hidden';
+   mtag.innerHTML = "Currently we are on hold, please visit us later!";
 }
-
-_isProjectOnHold(child, output);
 
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
@@ -63,10 +40,10 @@ function submitLead(e) {
    e.preventDefault();
 
    let name = document.querySelector('#fullnameId').value;
-   let mobile = document.querySelector('#mobileId').value;
+   mobile = document.querySelector('#mobileId').value;
    let email = document.querySelector('#emailId').value;
    let pincode = document.querySelector('#pincodeId').value;
-   console.log(name, " ", mobile, " ", email, " ", pincode);
+
    const lead = {
        customerName: name,
        customerMobile: mobile,
@@ -74,6 +51,7 @@ function submitLead(e) {
        customerPincode: pincode,
        projectName: projectName,
        leadCategory: LEAD_CATEGORY,
+       subId: getSubId(mobile, projCode),
        aggregatorName: "",
        payoutState: "Not eligible",
        status: "In process",
@@ -82,8 +60,12 @@ function submitLead(e) {
        dateOfSubmission: _getCurrentFirebaseTime(),
        remarks: "",
        eligibleForPayout: false
-   };
+   }
    _submitLeadWithCallBack(lead, id, callBack);
+}
+
+function getSubId(mobile, projCode) {
+    return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }
 
 function callBack(output) {

@@ -1,4 +1,5 @@
 import { _getCurrentFirebaseTime, _getFirestore, _getProjectLink, _getRtdb, _isProjectOnHold, _submitLead, _submitLeadWithCallBack } from './firebase'
+import { ONHOLD } from './helper';
 
 const PROJ_NAME = new Map([["ASPR", "Aspire"]]);
 const LEAD_CATEGORY = "BNPL";
@@ -10,27 +11,18 @@ const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
-const child = LEAD_CATEGORY + "/" + projectName;
+const child = LEAD_CATEGORY + "/" + "Aspire-V1";
 console.log("code ",child, "  ", projCode, " ", projectName);
 var mobile;
 
-function result(output) {
-    console.log("onHold : " + output);
-    if (output == true) {
-    
-        let submitButton = document.getElementById('submitleadId');
-        submitButton.disabled = true;
-        submitButton.value = "On Hold";
-        if(!alert('Currently we  are on hold, please come back after sometime')){window.location.reload();}
-        return;
-    }
-    else if (output == null) {
-       if(!alert("Something went wrong, please try refersh !!")){window.location.reload();}
-        return;
-    }
+if (ONHOLD.includes(projectName)){
+    console.log("onhold")
+    let lead = document.getElementById('leadform');
+    let mtag = document.getElementById('taglineId');
+    lead.style.visibility = 'hidden';
+    mtag.innerHTML = "Currently we are on hold, please visit us later!";
 }
 
-_isProjectOnHold(child, result);
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
 function submitLead(e) {
@@ -38,14 +30,26 @@ function submitLead(e) {
 
     let name = document.querySelector('#fullnameId').value;
     mobile = document.querySelector('#mobileId').value;
-    let email = document.querySelector('#emailId').value;
+    let occupation = document.getElementById('occupationId').value;
+    console.log("Occupation ", occupation);
+    if (occupation == 'Occupation') {
+        alert("Please select occupation");
+    }
+    let income = document.querySelector('#incomeId').value;
     let pincode = document.querySelector('#pincodeId').value;
-    console.log(name, " ", mobile, " ", email, " ", pincode);
+    let state = document.getElementById('stateId').value;
+    console.log("State ", state);
+    if (state == 'State') {
+        alert("Please select State");
+    }
+
     const lead = {
         customerName: name,
         customerMobile: mobile,
-        customerEmail: email,
+        customerOccupation: occupation,
+        customerMonthlyIncome: income,
         customerPincode: pincode,
+        customerState: state,
         projectName: projectName,
         leadCategory: LEAD_CATEGORY,
         aggregatorName: "",
@@ -63,7 +67,6 @@ function submitLead(e) {
 function callBack(output) {
     console.log("output ", output);
     if (output) {
-        // let subId = getSubId(mobile, projCode);
         _getProjectLink(child, getLink);
     }
     else {
@@ -73,10 +76,8 @@ function callBack(output) {
 
 function getLink(link) {
     if (link != null) {
-        // let subId = getSubId(mobile, projCode);
-        // let _link = link.replace("{aryoId}", subId);
-        console.log("link :" + _link)
-        window.open(_link, "_self");
+        console.log("link :" + link)
+        window.open(link, "_self");
     }
     else {
         if (!alert('Something went wrong, please try again!')){window.location.reload();}

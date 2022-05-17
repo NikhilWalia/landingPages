@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/aryo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Aryo</title>
+
+</head>
+
+<body>
+    <section class="d-felx flex-column section">
+        <div class="ccproductlogo">
+            <img src="" alt="" id="plogoId">
+            <p class="tagline" id="taglineId"></p>
+        </div>
+
+        <div class="row">
+            <form action="" method="post" class="leadform" id="leadform">
+                <fieldset class="groupfield">
+                    <!-- <h4 id="taglineId"></h4> -->
+                    <div class="field">
+                        <input type="text" placeholder="Full Name*" name="name" value="" class="row-in" id="fullnameId"
+                            required oninvalid="this.setCustomValidity('Please enter full name')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+                    <div class="field">
+                        <input type="text" placeholder="Mobile*" name="mobile" value="" class="row-in" id="mobileId"
+                            required maxlength="10" pattern="[0-9]{10}"
+                            oninvalid="this.setCustomValidity('Please enter valid mobile number')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+                    <div class="field">
+                        <input type="email" placeholder="Email*" name="email" value="" class="row-in" id="emailId"
+                            required oninvalid="this.setCustomValidity('Please enter valid email')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+                    <div class="field">
+                        <input type="text" placeholder="Pincode*" name="pincode" value="" class="row-in" id="pincodeId"
+                            maxlength="6" pattern="[0-9]{6}" required
+                            oninvalid="this.setCustomValidity('Please enter valid pincode')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+                    <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
+                </fieldset>
+            </form>
+            <!-- <script>
+                const queryString = window.location.search;
+                const uid = urlParams.get("uid");
+                const projCode = uid.substring(0, 5);
+                let logo = document.getElementById('plogoId');
+                let mtag = document.getElementById('taglineId');
+
+                if (projCode == 'sbisc') {
+                    logo.src = "images/simplyclickcardimage.png";
+                    mtag.innerHTML = "Get Your SBI Simply Click Card Now!";
+                }
+                else if (projCode == 'sbiss') {
+                    logo.src = "images/simplysave.jpg"
+                    mtag.innerHTML = "Get Your SBI Simply Save Card Now!";
+                } else if (projCode === 'icici') {
+                    logo.src = "images/icicilogo.png";
+                    mtag.innerHTML = "Get Your ICICI Credit Card Now!";
+                }
+
+            </script> -->
+        </div>
+    </section>
+    <script type="module" src="js/help.bundle.js"></script>
+    <script type="module" src="js/firebase.bundle.js"></script>
+    <script type="module" src="js/creditcards.bundle.js"></script>
+</body>
+
+</html>
