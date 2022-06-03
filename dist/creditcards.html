@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <div class="leadpage">
     <section class="d-felx flex-column section">
         <div class="ccproductlogo">
             <img src="" alt="" id="plogoId">
@@ -47,28 +48,9 @@
                     <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
                 </fieldset>
             </form>
-            <!-- <script>
-                const queryString = window.location.search;
-                const uid = urlParams.get("uid");
-                const projCode = uid.substring(0, 5);
-                let logo = document.getElementById('plogoId');
-                let mtag = document.getElementById('taglineId');
-
-                if (projCode == 'sbisc') {
-                    logo.src = "images/simplyclickcardimage.png";
-                    mtag.innerHTML = "Get Your SBI Simply Click Card Now!";
-                }
-                else if (projCode == 'sbiss') {
-                    logo.src = "images/simplysave.jpg"
-                    mtag.innerHTML = "Get Your SBI Simply Save Card Now!";
-                } else if (projCode === 'icici') {
-                    logo.src = "images/icicilogo.png";
-                    mtag.innerHTML = "Get Your ICICI Credit Card Now!";
-                }
-
-            </script> -->
         </div>
     </section>
+</div>
     <script type="module" src="js/help.bundle.js"></script>
     <script type="module" src="js/firebase.bundle.js"></script>
     <script type="module" src="js/creditcards.bundle.js"></script>

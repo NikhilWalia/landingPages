@@ -17,6 +17,7 @@ module.exports = {
     pl: path.join(__dirname, 'src', 'js', 'personalloan.js'),
     bl: path.join(__dirname, 'src', 'js', 'businessloan.js'),
     ad: path.join(__dirname, 'src', 'js', 'appdownload.js'),
+    dg: path.join(__dirname, 'src', 'js', 'digitalgold.js'),
     bnpl: path.join(__dirname, 'src', 'js', 'bnpl.js')
 
 

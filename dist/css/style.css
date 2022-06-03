@@ -1,6 +1,6 @@
 
         * {
-            background-color: whitesmoke;
+            background-color: white;
         }
 
         .container {
@@ -10,17 +10,25 @@
             height: 100%;
         }
 
-        /*loader */
-        /* Safari */
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
-
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
+                .leadpage {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    width: 100%;
+                    transform: translate(-50%, -50%);
+                }
+        
+                /*loader */
+                /* Safari */
+                @-webkit-keyframes spin {
+                    0% {
+                        -webkit-transform: rotate(0deg);
+                    }
+        
+                    100% {
+                        -webkit-transform: rotate(360deg);
+                    }
+                }
 
         @keyframes spin {
             0% {
@@ -128,7 +136,7 @@
         #taglineId {
             display: block;
             margin: auto;
-            width: 100%;
+            width: 80%;
             margin-top: 10px;
             text-align: center;
         }
@@ -149,7 +157,7 @@
 
         #leadform input {
             border-radius: 5px;
-            background-color: white;
+            background-color: aliceblue;
             border-color: white;
         }
 
@@ -203,6 +211,9 @@
             display: block;
             margin: auto;
             margin-top: 16px;
+            border-width: 0px;
+            padding-top: 5px;
+            padding-bottom: 5px;
             color: white;
             background-color: #4285F4;
             border-radius: 5px;
@@ -211,7 +222,7 @@
         input[type='text'] {
             display: block;
             margin: auto;
-            width: 80%;
+            width: 90%;
             background: lightsteelblue;
             border: 1px;
             box-shadow: 2px;
@@ -224,7 +235,7 @@
         input[type='email'] {
             display: block;
             margin: auto;
-            width: 80%;
+            width: 90%;
             background: lightsteelblue;
             border: 1px;
             box-shadow: 2px;
@@ -237,7 +248,7 @@
         input[type='number'] {
             display: block;
             margin: auto;
-            width: 80%;
+            width: 90%;
             background: lightsteelblue;
             border: 1px;
             box-shadow: 2px;
@@ -336,7 +347,7 @@
                 display: block;
                 margin: auto;
                 margin-top: 20px;
-                width: 25%;
+                width: 33%;
                 height: auto;
                 align-items: center;
                 border-radius: 0px;

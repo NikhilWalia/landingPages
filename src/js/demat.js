@@ -6,9 +6,12 @@ pincode.addEventListener('input', function () {
     console.log(this.value.length);
 });
 
-const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"]]);
+const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"], ["ICID", "D"]]);
+
 const PROJ_NAME = new Map([["ESPR", "Espresso"], ["FSDM", "Fisdom"], ["5PSA", "5Paisa"],
-     ["PYTM", "Paytm"], ["ANGL", "Angel"], ["AXIS", "Axis Securities"], ["SAS0", "Sas Online"]]);
+     ["PYTM", "Paytm"], ["ANGL", "Angel"], ["AXIS", "Axis Securities"], ["ICID", "ICICI Direct"],
+     ["EDLW", "Edelweiss"]]);
+
 const LEAD_CATEGORY = "Demat Account";
 
 const queryString = window.location.search;
@@ -30,24 +33,6 @@ if (ONHOLD.includes(projectCode)){
     lead.style.visibility = 'hidden';
     mtag.innerHTML = "Currently we are on hold, please visit us later!";
 }
-
-// function result(output) {
-//     console.log("onHold : " + output);
-//     if (output == true) {
-    
-//         let submitButton = document.getElementById('submitleadId');
-//         submitButton.disabled = true;
-//         submitButton.value = "On Hold";
-//         if(!alert('Currently we  are on hold, please come back after sometime')){window.location.reload();}
-//         return;
-//     }
-//     else if (output == null) {
-//        if(!alert("Something went wrong, please try refersh !!")){window.location.reload();}
-//         return;
-//     }
-// }
-
-// _isProjectOnHold(child, result);
 
 function getLink(link) {
     if (link != null) {

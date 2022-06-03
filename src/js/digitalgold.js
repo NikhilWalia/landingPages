@@ -6,33 +6,51 @@ import { ONHOLD } from './helper'
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
-const PROJ_CODE = new Map([ ["IMBL", "R"]]);
-const PROJ_NAME = new Map([["IMBL", "iMobile"]]);
-const LEAD_CATEGORY = "App download";
+const PROJ_NAME = new Map([["AUMT", "Augmont"]]);
+const LEAD_CATEGORY = "Digital Gold";
 
 const queryString = window.location.search;
 console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
-const id = uid.substring(6, uid.length);
+const id = uid.substring(4, uid.length);
 const projectName = PROJ_NAME.get(projCode);
+
 const child = LEAD_CATEGORY + "/" + projectName;
-var mobile;
+
+if (ONHOLD.includes(projCode)){
+
+    let lead = document.getElementById('leadform');
+    let mtag = document.getElementById('taglineId');
+    lead.style.visibility = 'hidden';
+    mtag.innerHTML = "Currently we are on hold, please visit us later!";
+}
 
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
-if (projCode == 'IMBL') {
-   logo.src = "images/imobilelogo.png";
-   mtag.innerHTML = "Manage all your Banking services with iMobile pay App!";
+if (projCode == 'AUMT') {
+   logo.src = "images/augmont.png";
+   mtag.innerHTML = "Buy Digital Go/Silver, Invest in Gold/Silver SIP!";
 }
 
-if (ONHOLD.includes(projCode)){
-   let lead = document.getElementById('leadform');
-   let mtag = document.getElementById('taglineId');
-   lead.style.visibility = 'hidden';
-   mtag.innerHTML = "Currently we are on hold, please visit us later!";
+
+function output(output) {
+   
+   if (output == true) {
+       let submitButton = document.getElementById('submitleadId');
+       submitButton.disabled = true;
+       submitButton.value = "On Hold";
+       if (!alert("Currently we  are on hold, please come back after sometime")){window.location.reload();}
+       return;
+   }
+   else if (output == null){
+       if (!alert("Something went wrong, please try refersh !!")){window.location.reload();}
+       return;
+   }
 }
+
+_isProjectOnHold(child, output);
 
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
@@ -40,10 +58,10 @@ function submitLead(e) {
    e.preventDefault();
 
    let name = document.querySelector('#fullnameId').value;
-   mobile = document.querySelector('#mobileId').value;
+   let mobile = document.querySelector('#mobileId').value;
    let email = document.querySelector('#emailId').value;
    let pincode = document.querySelector('#pincodeId').value;
-
+   console.log(name, " ", mobile, " ", email, " ", pincode);
    const lead = {
        customerName: name,
        customerMobile: mobile,
@@ -51,7 +69,6 @@ function submitLead(e) {
        customerPincode: pincode,
        projectName: projectName,
        leadCategory: LEAD_CATEGORY,
-       subId: getSubId(mobile, projCode),
        aggregatorName: "",
        payoutState: "Not eligible",
        status: "In process",
@@ -60,12 +77,8 @@ function submitLead(e) {
        dateOfSubmission: _getCurrentFirebaseTime(),
        remarks: "",
        eligibleForPayout: false
-   }
+   };
    _submitLeadWithCallBack(lead, id, callBack);
-}
-
-function getSubId(mobile, projCode) {
-    return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }
 
 function callBack(output) {
@@ -79,13 +92,11 @@ function callBack(output) {
 }
 
 function getLink(link) {
-    if (link != null) {
-        let subId = getSubId(mobile, projCode);
-        let _link = link.replace("{aryoId}", subId);
-        window.open(_link, "_self");
-    }
-    else {
-        if (!alert('Something went wrong, please try again!')) { window.location.reload(); }
-        return;
-    }
+   if (link != null) {
+       window.open(link, "_self");
+   }
+   else {
+       if (!alert('Something went wrong, please try again!')){window.location.reload();}
+       return;
+   }
 }

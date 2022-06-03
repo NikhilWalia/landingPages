@@ -1,4 +1,5 @@
 import { _getCurrentFirebaseTime, _getFirestore, _getProjectLink, _getRtdb, _isProjectOnHold, _submitLead, _submitLeadWithCallBack } from './firebase'
+import { ONHOLD } from './helper';
 
 const db = _getFirestore();
 const rtdb = _getRtdb();
@@ -19,6 +20,14 @@ console.log("uid :", id);
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
 
+if (ONHOLD.includes(projCode)){
+    console.log("onhold")
+    let lead = document.getElementById('leadform');
+    let mtag = document.getElementById('taglineId');
+    lead.style.visibility = 'hidden';
+    mtag.innerHTML = "Currently we are on hold, please visit us later!";
+}
+
 if (projCode == 'sbisc') {
     logo.src = "images/simplyclickcardimage.jpg";
     mtag.innerHTML = "Get Your SBI Simply Click Card Now!";
@@ -30,23 +39,6 @@ else if (projCode == 'sbiss') {
     logo.src = "images/icicilogo.png";
     mtag.innerHTML = "Get Your ICICI Credit Card Now!";
 }
-
-function result(output) {
-    console.log("onHold : " + output);
-    if (output == true) {
-        let submitButton = document.getElementById('submitleadId');
-        submitButton.disabled = true;
-        submitButton.value = "On Hold";
-        if(!alert('Currently we  are on hold, please come back after sometime')){window.location.reload();}
-        return;
-    }
-    else if (output == null) {
-       if(!alert("Something went wrong, please try refersh !!")){window.location.reload();}
-        return;
-    }
-}
-
-_isProjectOnHold(child, result);
 
 function getLink(link) {
     if (link != null) {
