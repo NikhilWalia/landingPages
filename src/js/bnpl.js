@@ -44,6 +44,7 @@ function submitLead(e) {
     }
 
     const lead = {
+        agentId: id,
         customerName: name,
         customerMobile: mobile,
         customerOccupation: occupation,

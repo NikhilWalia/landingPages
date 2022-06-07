@@ -101,6 +101,7 @@ function submitLead(e) {
     let income = document.querySelector('#incomeId').value;
 
     const lead = {
+        agentId: id,
         customerName: name,
         customerMobile: mobile,
         customerEmail: email,

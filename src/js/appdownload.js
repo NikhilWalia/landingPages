@@ -45,6 +45,7 @@ function submitLead(e) {
    let pincode = document.querySelector('#pincodeId').value;
 
    const lead = {
+       agentId: id,
        customerName: name,
        customerMobile: mobile,
        customerEmail: email,

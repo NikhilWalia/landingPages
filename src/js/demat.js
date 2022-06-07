@@ -15,7 +15,7 @@ const PROJ_NAME = new Map([["ESPR", "Espresso"], ["FSDM", "Fisdom"], ["5PSA", "5
 const LEAD_CATEGORY = "Demat Account";
 
 const queryString = window.location.search;
-console.log(queryString);
+// console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
@@ -23,11 +23,11 @@ const projectCode = uid.substring(0, 6);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
-console.log("code ",child, "  ", projCode, " ", projectName);
+// console.log("code ",child, "  ", projCode, " ", projectName);
 var mobile;
 
 if (ONHOLD.includes(projectCode)){
-    console.log("onhold")
+    // console.log("onhold")
     let lead = document.getElementById('leadform');
     let mtag = document.getElementById('taglineId');
     lead.style.visibility = 'hidden';
@@ -38,7 +38,7 @@ function getLink(link) {
     if (link != null) {
         let subId = getSubId(mobile, projCode);
         let _link = link.replace("{aryoId}", subId);
-        console.log("link :" + _link)
+        // console.log("link :" + _link)
         window.open(_link, "_self");
     }
     else {
@@ -48,7 +48,7 @@ function getLink(link) {
 }
 
 function callBack(output) {
-    console.log("output ", output);
+    // console.log("output ", output);
     if (output) {
         let subId = getSubId(mobile, projCode);
         _getProjectLink(child, getLink);
@@ -66,8 +66,9 @@ function submitLead(e) {
     mobile = document.querySelector('#mobileId').value;
     let email = document.querySelector('#emailId').value;
     let pincode = document.querySelector('#pincodeId').value;
-    console.log(name, " ", mobile, " ", email, " ", pincode);
+    // console.log(name, " ", mobile, " ", email, " ", pincode);
     const lead = {
+        agentId: id,
         customerName: name,
         customerMobile: mobile,
         customerEmail: email,
@@ -88,6 +89,6 @@ function submitLead(e) {
 }
 
 function getSubId(mobile, projCode) {
-    console.log("subId :", PROJ_CODE.get(projCode));
+    // console.log("subId :", PROJ_CODE.get(projCode));
     return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }

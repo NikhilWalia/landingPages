@@ -49,39 +49,49 @@ export const _submitLeadWithCallBack = async (lead, id, callBack) => {
     const q = query(leadRef, where("projectName", "==", lead.projectName)
         , where("customerMobile", "==", lead.customerMobile));
     const querySnapshot = await getDocs(q);
-    // console.log("querySnapshot1 ", querySnapshot1.size)
-    if (querySnapshot.size > 0) {
-        querySnapshot.forEach((docRef) => {
-            console.log("-> ", docRef.id, " => ", docRef.data());
-            const leadDocRef = doc(db, `/AryoDB/${id}/LeadsDB`, `${docRef.id}`);
-            updateDoc(leadDocRef,
-                {
-                    customerName: lead.customerName,
-                    customerEmail: lead.customerEmail,
-                    customerPincode: lead.customerPincode,
-                }
-            ).then(_doc=>{
-                // console.log("Document updated with ID: dref ", docRef.id)
-                callBack(true);
-            })
-        });
-    } else {
-        try {
-            const leadsCol = collection(db, `/AryoDB/${id}/LeadsDB`);
-            addDoc(leadsCol, lead)
-                .then((docRef) => {
-                    // console.log("Document written with ID: ", docRef.id);
-                    divLoader.remove();
-                    //show successfull message
-                    callBack(true);
-                });
-        }
-        catch (err) {
-            // console.log(err);
-            callBack(false);
-        }
-    }
+    console.log("day  ", Timestamp.now().toDate().toDateString())
+    // setDoc(doc(db, 'WorkingAgentsDB', id), {
+    //     dateOfSubmission: Timestamp.now().toDate()
     // })
+    //     .then(docref => {
+            if (querySnapshot.size > 0) {
+                querySnapshot.forEach((docRef) => {
+                    // console.log("-> ", docRef.id, " => ", docRef.data());
+                    const leadDocRef = doc(db, `/AryoDB/${id}/LeadsDB`, `${docRef.id}`);
+                    updateDoc(leadDocRef,
+                        {
+                            customerName: lead.customerName,
+                            customerEmail: lead.customerEmail,
+                            customerPincode: lead.customerPincode,
+                        }
+                    ).then(_doc => {
+                        // console.log("Document updated with ID: dref ", docRef.id)
+                        callBack(true);
+                    })
+                });
+            } else {
+                try {
+                    const leadsCol = collection(db, `/AryoDB/${id}/LeadsDB`);
+                    addDoc(leadsCol, lead)
+                        .then((docRef) => {
+                            // console.log("Document written with ID: ", docRef.id);
+                            divLoader.remove();
+                            //show successfull message
+                            callBack(true);
+                            
+                            const aryoLeadsCol = collection(db, `/AryoLeadsDB/`);
+                            addDoc(aryoLeadsCol, lead).then(docRef=>{
+                                console.log("aryoLeadsDB updated");
+                            })
+                        });
+
+                }
+                catch (err) {
+                    // console.log(err);
+                    callBack(false);
+                }
+            }
+        // })
 
 }
 
