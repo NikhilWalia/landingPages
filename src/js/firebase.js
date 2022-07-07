@@ -13,9 +13,21 @@ const firebaseConfig = {
     measurementId: "G-R01FFJW83G"
 }
 
+const firebaseConfigAryoProjects = {
+    apiKey: "AIzaSyCR7CAl0XTaarMBBlkac9rT0So04hmmH7s",
+    authDomain: "aryotest-7a458.firebaseapp.com",
+    databaseURL: "https://aryoprojectdetails.firebaseio.com",
+    projectId: "aryotest-7a458",
+    storageBucket: "aryotest-7a458.appspot.com",
+    messagingSenderId: "814626812052",
+    appId: "1:814626812052:web:c78fa20629b98323248481",
+    measurementId: "G-R01FFJW83G"
+}
+
 const app = initializeApp(firebaseConfig);
 var db = getFirestore();
 var rtdb = ref(getDatabase(app));
+const rtdbAryoProjectDetails = ref(getDatabase(initializeApp(firebaseConfigAryoProjects, 'secondry')))
 
 
 export const _getFirestore = () => { return db; }
@@ -23,6 +35,22 @@ export const _getFirestore = () => { return db; }
 export const _getRtdb = () => { return rtdb; }
 
 export const _getCurrentFirebaseTime = () => { return Timestamp.now().toDate(); }
+
+export const _getAryoProjectLink = (path, callBack) => {
+
+    get(child(rtdbAryoProjectDetails, `${path}/LINK`)).then((snapshot) => {
+
+        if (snapshot.exists()) {
+            // console.log("links -> ", snapshot.val());
+            callBack(snapshot.val());
+        } else {
+            callBack(null);
+        }
+    }).catch((error) => {
+        callBack(null);
+    });
+
+}
 
 export const _getProjectLink = (projName, callBack) => {
     // console.log("link at ", projName);
@@ -79,8 +107,8 @@ export const _submitLeadWithCallBack = async (lead, id, callBack) => {
                             //show successfull message
                             callBack(true);
                             
-                            const aryoLeadsCol = collection(db, `/AryoLeadsDB/`);
-                            addDoc(aryoLeadsCol, lead).then(docRef=>{
+                            const aryoLeadsCol = doc(db, `/AryoLeadsDB/`, `${docRef.id}`);
+                            setDoc(aryoLeadsCol, lead).then(docRef=>{
                                 console.log("aryoLeadsDB updated");
                             })
                         });
@@ -93,6 +121,53 @@ export const _submitLeadWithCallBack = async (lead, id, callBack) => {
             }
         // })
 
+}
+
+export const _submitLeadToAryoLeadsDBCallBack = async (lead, id, callBack) => {
+    const divLoader = document.createElement("div");
+    divLoader.className = "loader";
+    document.body.appendChild(divLoader);
+    //check if lead already exist
+    const leadRef = collection(db, `AryoLeadsDB`);
+    // console.log("projectname ", lead.projectName, " mobile ", lead.customerMobile)
+    const q = query(leadRef, where("projectName", "==", lead.projectName)
+        , where("customerMobile", "==", lead.customerMobile)
+        , where("agentId", "==", lead.agentId));
+    const querySnapshot = await getDocs(q);
+    console.log("day  ", Timestamp.now().toDate().toDateString())
+
+            if (querySnapshot.size > 0) {
+                querySnapshot.forEach((docRef) => {
+                    // console.log("-> ", docRef.id, " => ", docRef.data());
+                    const leadDocRef = doc(db, `AryoLeadsDB`, `${docRef.id}`);
+                    updateDoc(leadDocRef,
+                        {
+                            customerName: lead.customerName,
+                            customerEmail: lead.customerEmail,
+                            customerPincode: lead.customerPincode,
+                        }
+                    ).then(_doc => {
+                        // console.log("Document updated with ID: dref ", docRef.id)
+                        divLoader.remove();
+                        callBack(true);
+                    })
+                });
+            } else {
+                try {
+
+                    const aryoLeadsCol = collection(db, `/AryoLeadsDB/`);
+                    addDoc(aryoLeadsCol, lead).then(docRef=>{
+                        console.log("lead submitted ");
+                        divLoader.remove();
+                        callBack(true);
+                    })
+                }
+                catch (err) {
+                    // console.log(err);
+                    divLoader.remove();
+                    callBack(false);
+                }
+            }
 }
 
 export const _submitLead = (lead, id) => {

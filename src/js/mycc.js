@@ -2,6 +2,7 @@ import { initializeApp } from '@firebase/app';
 import { getDatabase, ref, child, get } from 'firebase/database'
 import { _getFirestore, _submitLead, _getCurrentFirebaseTime, _submitLeadWithCallBack } from './firebase'
 import { pancardValidation } from './helper';
+import { _submitLeadToAryoLeadsDBCallBack } from './firebase';
 
 const ccConfig = {
     projectId: "aryotest-7a458",
@@ -14,9 +15,21 @@ const db = _getFirestore();
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
-const id = uid.substring(0, 32);
+const id = uid.substring(0, uid.length);
 console.log("uid :", id);
 const pincode = document.getElementById('pincodeId');
+
+if (id.length != 28) {
+
+    console.log("Invalid url");
+    let logo = document.getElementById('plogoId')
+    let lead = document.getElementById('leadform');
+    let mtag = document.getElementById('taglineId');
+    logo.src = "/images/sad.png";
+    lead.style.visibility = 'hidden';
+    mtag.innerHTML = "This is an invalid URL!";
+    
+}
 
 pincode.addEventListener('input', function () {
     console.log(this.value);
@@ -123,7 +136,7 @@ function submitLead(e) {
         remarks: "",
         eligibleForPayout: false
     }
-    _submitLeadWithCallBack(lead, id, result);
+    _submitLeadToAryoLeadsDBCallBack(lead, id, result);
 }
 
 function result(output) {

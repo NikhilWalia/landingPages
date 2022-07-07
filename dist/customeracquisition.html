@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aryo</title>
+    <link rel="icon" href="images/aryo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="productlogo">
+        <img src="" alt="" id="plogoId">
+        <p class="tagline" id="taglineId"></p>
+    </div>
+    
+    <form action="" method="post" id="leadform">
+
+        <fieldset class="groupfield">
+            <div class="field">
+                <input type="text" placeholder="Full Name*" name="name" value="" id="fullnameId" required
+                    oninvalid="this.setCustomValidity('Please enter full name')" oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Mobile*" name="mobile" value="" id="mobileId" required maxlength="10"
+                    pattern="[0-9]{10}" oninvalid="this.setCustomValidity('Please enter valid mobile number')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="email" placeholder="Email*" name="email" value="" id="emailId" required
+                    oninvalid="this.setCustomValidity('Please enter valid email')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Pincode*" name="pincode" value="" id="pincodeId" maxlength="6"
+                    pattern="[0-9]{6}" required oninvalid="this.setCustomValidity('Please enter valid pincode')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+
+            <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
+
+        </fieldset>
+        <script type="module" src="js/help.bundle.js"></script>
+        <script type="module" src="js/firebase.bundle.js"></script>
+        <script type="module" src="js/ca.bundle.js"></script>
+    </form>
+
+    
+</body>
+</html>

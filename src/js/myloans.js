@@ -1,24 +1,37 @@
 import { _getFirestore, _getRtdb, _getCurrentFirebaseTime,
-    _submitLead, _isProjectOnHold, _submitLeadWithCallBack,
     _getAryoProjectLink, 
     _submitLeadToAryoLeadsDBCallBack} from './firebase';
-import { ONHOLD } from './helper'
+import { pancardValidation, ONHOLD } from './helper'
 
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
-const PROJ_NAME = new Map([["AUMT", "Augmont"]]);
-const LEAD_CATEGORY = "Digital Gold";
+const PROJ_NAME = new Map([["IIFL", "India Infoline"], ["KB00", "KreditBee"]]);
+const LEAD_CATEGORY = new Map([["PL", "Personal loan"], ["BL", "Business loan"], ["IL", "Instant loan"]]);
 
 const queryString = window.location.search;
 console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
-const id = uid.substring(4, uid.length);
+const projectCode = uid.substring(0, 6);
+const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
-
-const child = LEAD_CATEGORY + "/" + projectName;
+const leadCategory = LEAD_CATEGORY.get(uid.substring(4, 6));
+const child = leadCategory + "/" + projectName;
+let logo = document.getElementById('plogoId');
+let mtag = document.getElementById('taglineId');
+// console.log(projCode, " = ", leadCategory, " = ", child)
+if (projCode == 'IIFL' && leadCategory == 'Business loan') {
+   logo.src = "images/iifllogo.png";
+   mtag.innerHTML = "Apply for a business loan from IIFL!";
+} else if (projCode == 'IIFL' && leadCategory == 'Personal loan' ) {
+    logo.src = "images/iifllogo.png";
+   mtag.innerHTML = "Apply for a personal loan from IIFL!";
+} else if (projCode == 'KB00') {
+    logo.src = "images/kreditbeelogo.png";
+    mtag.innerHTML = "Get an Instant loan in 2 min!";
+}
 
 if (projectName == undefined || id.length != 28) {
 
@@ -32,38 +45,12 @@ if (projectName == undefined || id.length != 28) {
     
 }
 
-if (ONHOLD.includes(projCode)){
-
-    let lead = document.getElementById('leadform');
-    let mtag = document.getElementById('taglineId');
-    lead.style.visibility = 'hidden';
-    mtag.innerHTML = "Currently we are on hold, please visit us later!";
+if (ONHOLD.includes(projectCode)){
+   let lead = document.getElementById('leadform');
+   let mtag = document.getElementById('taglineId');
+   lead.style.visibility = 'hidden';
+   mtag.innerHTML = "Currently we are on hold, please visit us later!";
 }
-
-let logo = document.getElementById('plogoId');
-let mtag = document.getElementById('taglineId');
-if (projCode == 'AUMT') {
-   logo.src = "images/augmont.png";
-   mtag.innerHTML = "Buy Digital Gold/Silver, Invest in Gold/Silver SIP!";
-}
-
-
-function output(output) {
-   
-   if (output == true) {
-       let submitButton = document.getElementById('submitleadId');
-       submitButton.disabled = true;
-       submitButton.value = "On Hold";
-       if (!alert("Currently we  are on hold, please come back after sometime")){window.location.reload();}
-       return;
-   }
-   else if (output == null){
-       if (!alert("Something went wrong, please try refersh !!")){window.location.reload();}
-       return;
-   }
-}
-
-_isProjectOnHold(child, output);
 
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
@@ -74,15 +61,21 @@ function submitLead(e) {
    let mobile = document.querySelector('#mobileId').value;
    let email = document.querySelector('#emailId').value;
    let pincode = document.querySelector('#pincodeId').value;
-   console.log(name, " ", mobile, " ", email, " ", pincode);
+   let pan = document.querySelector('#panId').value;
+   if (!pancardValidation(pan)) {
+       alert("Please enter valid pan number");
+       return;
+   }
+
    const lead = {
        agentId: id,
        customerName: name,
        customerMobile: mobile,
        customerEmail: email,
        customerPincode: pincode,
+       customerPan: pan,
        projectName: projectName,
-       leadCategory: LEAD_CATEGORY,
+       leadCategory: leadCategory,
        aggregatorName: "",
        payoutState: "Not eligible",
        status: "In process",
@@ -91,14 +84,14 @@ function submitLead(e) {
        dateOfSubmission: _getCurrentFirebaseTime(),
        remarks: "",
        eligibleForPayout: false
-   };
+   }
    _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
 }
 
 function callBack(output) {
    console.log("output ", output);
    if (output) {
-    _getAryoProjectLink(child, getLink);
+        _getAryoProjectLink(child, getLink);
    }
    else {
        if (!alert("Something went wrong, please try again!!")){window.location.reload();}

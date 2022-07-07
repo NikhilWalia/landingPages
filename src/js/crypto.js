@@ -19,6 +19,18 @@ const projectName = PROJ_NAME.get(projCode);
 
 const child = LEAD_CATEGORY + "/" + projectName;
 
+if (projectName == undefined || id.length != 28) {
+
+    console.log("Invalid url");
+    let logo = document.getElementById('plogoId')
+    let lead = document.getElementById('leadform');
+    let mtag = document.getElementById('taglineId');
+    logo.src = "/images/sad.png";
+    lead.style.visibility = 'hidden';
+    mtag.innerHTML = "This is an invalid URL!";
+    
+}
+
 if (ONHOLD.includes(projCode)){
     console.log("onhold")
     let lead = document.getElementById('leadform');

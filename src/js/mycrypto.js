@@ -1,5 +1,5 @@
 import { _getFirestore, _getRtdb, _getCurrentFirebaseTime,
-    _submitLead, _isProjectOnHold, _submitLeadWithCallBack,
+    _submitLead, _isProjectOnHold,
     _getAryoProjectLink, 
     _submitLeadToAryoLeadsDBCallBack} from './firebase';
 import { ONHOLD } from './helper'
@@ -7,8 +7,8 @@ import { ONHOLD } from './helper'
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
-const PROJ_NAME = new Map([["AUMT", "Augmont"]]);
-const LEAD_CATEGORY = "Digital Gold";
+const PROJ_NAME = new Map([["MDRX", "Mudrex"], ["GOTS", "Giottus"], ["UNCN", "Unocoin"]]);
+const LEAD_CATEGORY = "Crypto";
 
 const queryString = window.location.search;
 console.log(queryString);
@@ -33,7 +33,7 @@ if (projectName == undefined || id.length != 28) {
 }
 
 if (ONHOLD.includes(projCode)){
-
+    console.log("onhold")
     let lead = document.getElementById('leadform');
     let mtag = document.getElementById('taglineId');
     lead.style.visibility = 'hidden';
@@ -42,14 +42,22 @@ if (ONHOLD.includes(projCode)){
 
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
-if (projCode == 'AUMT') {
-   logo.src = "images/augmont.png";
-   mtag.innerHTML = "Buy Digital Gold/Silver, Invest in Gold/Silver SIP!";
+if (projCode == 'MDRX') {
+   logo.src = "images/mudraxlogo.png";
+   mtag.innerHTML = "Open Mudraex crypto account for free!";
+} else if (projCode == 'GOTS') {
+    let divGiottusCoupon = document.getElementById('giottuscopuonId');
+    divGiottusCoupon.style.display = "block";
+    logo.src = "images/giottus.png";
+   mtag.innerHTML = "Open Giottus crypto account for free!";
+} else if (projCode == 'UNCN') {
+    logo.src = "images/unocoinlogo.png";
+   mtag.innerHTML = "Open Unocoin crypto account for free!";
 }
 
 
 function output(output) {
-   
+   console.log("output : " + output);
    if (output == true) {
        let submitButton = document.getElementById('submitleadId');
        submitButton.disabled = true;
@@ -63,7 +71,6 @@ function output(output) {
    }
 }
 
-_isProjectOnHold(child, output);
 
 document.getElementById('leadform').addEventListener('submit', submitLead);
 
@@ -108,6 +115,7 @@ function callBack(output) {
 function getLink(link) {
    if (link != null) {
        window.open(link, "_self");
+    
    }
    else {
        if (!alert('Something went wrong, please try again!')){window.location.reload();}

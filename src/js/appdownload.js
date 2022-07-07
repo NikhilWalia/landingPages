@@ -15,7 +15,7 @@ console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
-const id = uid.substring(6, uid.length);
+const id = uid.substring(6, 34);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
 var mobile;

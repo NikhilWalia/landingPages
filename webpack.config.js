@@ -18,6 +18,13 @@ module.exports = {
     bl: path.join(__dirname, 'src', 'js', 'businessloan.js'),
     ad: path.join(__dirname, 'src', 'js', 'appdownload.js'),
     dg: path.join(__dirname, 'src', 'js', 'digitalgold.js'),
+    ca: path.join(__dirname, 'src', 'js', 'customeracquisition.js'),
+    dmt: path.join(__dirname, 'src', 'js', 'mydemataccount.js'),
+    svt: path.join(__dirname, 'src', 'js', 'mysavingsaccount.js'),
+    lns: path.join(__dirname, 'src', 'js', 'myloans.js'),
+    mcd: path.join(__dirname, 'src', 'js', 'mycreditcard.js'),
+    crt: path.join(__dirname, 'src', 'js', 'mycrypto.js'),
+    mcc: path.join(__dirname, 'src', 'js', 'mycc.js'),
     bnpl: path.join(__dirname, 'src', 'js', 'bnpl.js')
 
 

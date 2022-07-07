@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aryo</title>
+    <link rel="icon" href="images/aryo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="productlogo"">
+        <img src="" alt="" id="plogoId">
+        <p class="tagline" id="taglineId"></p>
+    </div>
+    
+    <div class="giottuscopuon" id="giottuscopuonId" style="display: none;">
+        <p style="text-align: center; margin-bottom: 0rem; font-size: 16px;">Copy this "ARYO" promo code and apply on Profile page of app to claim free BTC worth INR 100</p>
+        <div class="coupondiv">
+            <p  class="coupon" id="couponId">ARYO</p>
+            <img src="images/copy.png" alt="" class="copyimg" onclick="myFunction()">
+        </div>
+        <div class="tooltip">
+            <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>  
+        </div>
+    </div>
+
+    <form action="" method="post" id="leadform">
+
+        <fieldset class="groupfield">
+            <!-- <h4 id="taglineId"></h4> -->
+            <div class="field">
+                <input type="text" placeholder="Full Name*" name="name" value="" id="fullnameId" required
+                    oninvalid="this.setCustomValidity('Please enter full name')" oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Mobile*" name="mobile" value="" id="mobileId" required maxlength="10"
+                    pattern="[0-9]{10}" oninvalid="this.setCustomValidity('Please enter valid mobile number')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="email" placeholder="Email*" name="email" value="" id="emailId" required
+                    oninvalid="this.setCustomValidity('Please enter valid email')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Pincode*" name="pincode" value="" id="pincodeId" maxlength="6"
+                    pattern="[0-9]{6}" required oninvalid="this.setCustomValidity('Please enter valid pincode')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
+
+        </fieldset>
+        
+        <script type="module" src="js/help.bundle.js"></script>
+        <script type="module" src="js/firebase.bundle.js"></script>
+        <script type="module" src="js/crt.bundle.js"></script>
+    </form>
+
+    <script>
+        function myFunction() {
+          /* Get the text field */
+          var copyText = document.getElementById("couponId");
+        
+          /* Copy the text inside the text field */
+          navigator.clipboard.writeText(copyText.innerHTML);
+          var tooltip = document.getElementById("myTooltip");
+          tooltip.innerHTML = "Copied: " + copyText.innerHTML; 
+          tooltip.style.visibility = 'visible'    
+           
+        }
+    </script>
+    
+</body>
+
+</html>

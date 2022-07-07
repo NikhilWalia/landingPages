@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/aryo.png">
+    <title>Aryo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+    <div class="productlogo"">
+        <img src=" images/cclandingpage.png" alt="" id="plogoId">
+        <p class="tagline" id="taglineId">Get your Credit Card now!!</p>
+    </div>
+
+    <form action="" method="post" id="leadform">
+
+        <!-- <div class="errormsg">
+            <img src="images/sad.png" id="errimgId" alt="" height="45px" width="45px">
+            <h2>Sorry we can't issue credit card at this pincode!!</h2>
+        </div> -->
+        <fieldset class="groupfield">
+            <!-- <h4 id="taglineId"></h4> -->
+            <div class="field">
+                <input type="text" placeholder="Full Name*" name="name" value="" id="fullnameId" required
+                    oninvalid="this.setCustomValidity('Please enter full name')" oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Mobile*" name="mobile" value="" id="mobileId" required maxlength="10"
+                    pattern="[0-9]{10}" oninvalid="this.setCustomValidity('Please enter valid mobile number')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="email" placeholder="Email*" name="email" value="" id="emailId" required
+                    oninvalid="this.setCustomValidity('Please enter valid email')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Pincode*" name="pincode" value="" id="pincodeId" maxlength="6"
+                    pattern="[0-9]{6}" required oninvalid="this.setCustomValidity('Please enter valid pincode')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <input type="text" placeholder="PAN*" name="pan" value="" id="panId" maxlength="10"
+                    required
+                    style="text-transform:uppercase"
+                    oninvalid="this.setCustomValidity('Please enter valid PAN number')"
+                    oninput="this.setCustomValidity('')"/>
+            </div>
+            <div class="field">
+                <input type="text" placeholder="Aadhaar*" name="aadhaar" value="" id="aadhaarId" maxlength="12"
+                    pattern="[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}" required
+                    oninvalid="this.setCustomValidity('Please enter valid aadhaar')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="field">
+                <select name="occupation" class="dropdown" id="occupationId">
+                    <option value="Occupation">Occupation*</option>
+                    <option value="Self Employed">Self Employed</option>
+                    <option value="Salaried">Salaried</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <input type="text" placeholder="Company/Business Name" name="organization" value="" id="organizationId" maxlength="12"
+                    oninvalid="this.setCustomValidity('Please enter valid Comany/Business Name')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+
+            <div class="field">
+                <p class="para">Are you using any credit card:</p>
+                <input type="radio" id="yesid" name="existingcc" value="Yes">
+                <label for="yesid" style="color: black">Yes</label><br>
+                <input type="radio" id="npid" name="existingcc" value="No">
+                <label for="noid" style="color: black;">No</label><br>
+            </div>
+
+            <div class="field">
+                <input type="number" placeholder="Monthly Income*" name="income" value="" id="incomeId" required
+                    oninvalid="this.setCustomValidity('Please enter valid monthly income')"
+                    oninput="this.setCustomValidity('')" />
+            </div>
+
+
+            <button type="submit" id="submitleadId" submitLead()>Save & Proceed</button>
+
+            <script>
+                
+                // let lead = document.getElementById('leadform');
+                // lead.style.visibility = 'hidden';
+                // mtag.innerHTML = "Currently we are on hold!";
+            </script>
+
+        </fieldset>
+    </div>
+        <script type="module" src="js/mcc.bundle.js"></script>
+    </form>
+
+
+</body>
+
+</html>

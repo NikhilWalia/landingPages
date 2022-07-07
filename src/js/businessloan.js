@@ -20,6 +20,19 @@ const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
+
+if (projectName == undefined || id.length != 28) {
+
+    console.log("Invalid url");
+    let logo = document.getElementById('plogoId')
+    let lead = document.getElementById('leadform');
+    let mtag = document.getElementById('taglineId');
+    logo.src = "/images/sad.png";
+    lead.style.visibility = 'hidden';
+    mtag.innerHTML = "This is an invalid URL!";
+    
+}
+
 if (projCode == 'IIFL') {
    logo.src = "images/iifllogo.png";
    mtag.innerHTML = "Apply for a business loan from IIFL!";

@@ -1,4 +1,6 @@
-import { _getCurrentFirebaseTime, _getFirestore, _getProjectLink, _getRtdb, _isProjectOnHold, _submitLead, _submitLeadWithCallBack } from './firebase'
+import { _getCurrentFirebaseTime, _getFirestore, _getAryoProjectLink, _getRtdb,
+     _submitLeadToAryoLeadsDBCallBack, 
+     _submitLeadWithCallBack } from './firebase'
 import { ONHOLD } from './helper';
 
 const pincode = document.getElementById('pincodeId');
@@ -23,7 +25,7 @@ const projectCode = uid.substring(0, 6);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
-// console.log("code ",child, "  ", projCode, " ", projectName);
+console.log("code => ",child, "  ", projCode, " ", projectName);
 var mobile;
 
 if (projectName == undefined || id.length != 28) {
@@ -60,10 +62,10 @@ function getLink(link) {
 }
 
 function callBack(output) {
-    // console.log("output ", output);
+    console.log("output ", output);
     if (output) {
         let subId = getSubId(mobile, projCode);
-        _getProjectLink(child, getLink);
+        _getAryoProjectLink(child, getLink);
     }
     else {
         if (!alert("Something went wrong, please try again!!")){window.location.reload();}
@@ -78,7 +80,7 @@ function submitLead(e) {
     mobile = document.querySelector('#mobileId').value;
     let email = document.querySelector('#emailId').value;
     let pincode = document.querySelector('#pincodeId').value;
-    // console.log(name, " ", mobile, " ", email, " ", pincode);
+    
     const lead = {
         agentId: id,
         customerName: name,
@@ -97,10 +99,10 @@ function submitLead(e) {
         remarks: "",
         eligibleForPayout: false
     };
-    _submitLeadWithCallBack(lead, id, callBack);
+    _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
 }
 
 function getSubId(mobile, projCode) {
-    // console.log("subId :", PROJ_CODE.get(projCode));
+    
     return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }

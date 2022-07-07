@@ -1,31 +1,34 @@
-import { _getCurrentFirebaseTime, _getFirestore, _getProjectLink, _getRtdb, _isProjectOnHold, _submitLead, _submitLeadWithCallBack } from './firebase'
-import { ONHOLD } from './helper';
 
+import { _getCurrentFirebaseTime, _getFirestore, _getAryoProjectLink, _getRtdb, _submitLeadToAryoLeadsDBCallBack } from './firebase'
+import { ONHOLD } from './helper';
 const pincode = document.getElementById('pincodeId');
 pincode.addEventListener('input', function () {
     console.log(this.value.length);
 });
 
-const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"], ["ICID", "D"]]);
-
-const PROJ_NAME = new Map([["ESPR", "Espresso"], ["FSDM", "Fisdom"], ["5PSA", "5Paisa"],
-     ["PYTM", "Paytm"], ["ANGL", "Angel"], ["AXIS", "Axis Securities"], ["ICID", "ICICI Direct"],
-     ["EDLW", "Edelweiss"]]);
-
-const LEAD_CATEGORY = "Demat Account";
+//console.log("pincode " + pincode.val)
+const db = _getFirestore();
+const rtdb = _getRtdb();
+const PROJ_CODE = new Map([["FI00", 1], ["K811", 2], ["NIYX", 5], ["EQTS", 7], ["AXIS", 8], ["AUSF", 9], 
+    ["JPTR", "0"]]);
+const PROJ_NAME = new Map([["FI00", "Fi"], ["K811", "Kotak 811"],
+     ["NIYX", "NiyoX"], ["EQTS", "Equitas"], ["AXIS", "Axis"], ["AUSF", "AU Small finance"],
+     ["JPTR", "Jupiter"]]);
+const LEAD_CATEGORY = "Savings Account";
 
 const queryString = window.location.search;
-// console.log(queryString);
+console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
-const projCode = uid.substring(0, 4);
 const projectCode = uid.substring(0, 6);
+const projCode = uid.substring(0, 4);
+const leadCat = uid.substring(4, 6);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
-// console.log("code ",child, "  ", projCode, " ", projectName);
 var mobile;
 
+console.log(projectName , " ", id.length)
 if (projectName == undefined || id.length != 28) {
 
     console.log("Invalid url");
@@ -39,7 +42,7 @@ if (projectName == undefined || id.length != 28) {
 }
 
 if (ONHOLD.includes(projectCode)){
-    // console.log("onhold")
+    console.log("onhold")
     let lead = document.getElementById('leadform');
     let mtag = document.getElementById('taglineId');
     lead.style.visibility = 'hidden';
@@ -58,12 +61,11 @@ function getLink(link) {
         return;
     }
 }
-
 function callBack(output) {
-    // console.log("output ", output);
+    console.log("output ", output);
     if (output) {
         let subId = getSubId(mobile, projCode);
-        _getProjectLink(child, getLink);
+        _getAryoProjectLink(child, getLink);
     }
     else {
         if (!alert("Something went wrong, please try again!!")){window.location.reload();}
@@ -78,7 +80,7 @@ function submitLead(e) {
     mobile = document.querySelector('#mobileId').value;
     let email = document.querySelector('#emailId').value;
     let pincode = document.querySelector('#pincodeId').value;
-    // console.log(name, " ", mobile, " ", email, " ", pincode);
+    console.log(name, " ", mobile, " ", email, " ", pincode);
     const lead = {
         agentId: id,
         customerName: name,
@@ -86,8 +88,8 @@ function submitLead(e) {
         customerEmail: email,
         customerPincode: pincode,
         projectName: projectName,
-        subId: getSubId(mobile, projCode),
         leadCategory: LEAD_CATEGORY,
+        subId: getSubId(mobile, projCode),
         aggregatorName: "",
         payoutState: "Not eligible",
         status: "In process",
@@ -97,10 +99,11 @@ function submitLead(e) {
         remarks: "",
         eligibleForPayout: false
     };
-    _submitLeadWithCallBack(lead, id, callBack);
+
+    _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
 }
 
 function getSubId(mobile, projCode) {
-    // console.log("subId :", PROJ_CODE.get(projCode));
+    
     return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }

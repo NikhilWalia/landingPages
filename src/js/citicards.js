@@ -14,6 +14,18 @@ const id = uid.substring(0, uid.length);
 const child = LEAD_CATEGORY + "/" + PROJ_NAME;
 console.log("uid :", id);
 
+if (id.length != 28) {
+
+    console.log("Invalid url");
+    let logo = document.getElementById('plogoId')
+    let lead = document.getElementById('leadform');
+    let mtag = document.getElementById('taglineId');
+    logo.src = "/images/sad.png";
+    lead.style.visibility = 'hidden';
+    mtag.innerHTML = "This is an invalid URL!";
+    
+}
+
 if (ONHOLD.includes(PROJ_NAME)){
     console.log("onhold")
     let lead = document.getElementById('leadform');
