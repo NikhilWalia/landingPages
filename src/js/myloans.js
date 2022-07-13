@@ -10,7 +10,6 @@ const PROJ_NAME = new Map([["IIFL", "India Infoline"], ["KB00", "KreditBee"]]);
 const LEAD_CATEGORY = new Map([["PL", "Personal loan"], ["BL", "Business loan"], ["IL", "Instant loan"]]);
 
 const queryString = window.location.search;
-console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get("uid");
 const projCode = uid.substring(0, 4);
@@ -19,6 +18,7 @@ const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const leadCategory = LEAD_CATEGORY.get(uid.substring(4, 6));
 const child = leadCategory + "/" + projectName;
+
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
 // console.log(projCode, " = ", leadCategory, " = ", child)
@@ -89,7 +89,7 @@ function submitLead(e) {
 }
 
 function callBack(output) {
-   console.log("output ", output);
+  
    if (output) {
         _getAryoProjectLink(child, getLink);
    }

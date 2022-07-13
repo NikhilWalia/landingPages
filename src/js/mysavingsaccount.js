@@ -1,5 +1,6 @@
 
-import { _getCurrentFirebaseTime, _getFirestore, _getAryoProjectLink, _getRtdb, _submitLeadToAryoLeadsDBCallBack } from './firebase'
+import { _getCurrentFirebaseTime, _getFirestore, _getAryoProjectLink, _getRtdb,
+     _submitLeadToAryoLeadsDBCallBack, _getSubId } from './firebase'
 import { ONHOLD } from './helper';
 const pincode = document.getElementById('pincodeId');
 pincode.addEventListener('input', function () {
@@ -26,9 +27,9 @@ const leadCat = uid.substring(4, 6);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
-var mobile;
 
-console.log(projectName , " ", id.length)
+var mobile;
+const subId = _getSubId(PROJ_CODE.get(projCode));
 if (projectName == undefined || id.length != 28) {
 
     console.log("Invalid url");
@@ -51,7 +52,7 @@ if (ONHOLD.includes(projectCode)){
 
 function getLink(link) {
     if (link != null) {
-        let subId = getSubId(mobile, projCode);
+    
         let _link = link.replace("{aryoId}", subId);
         // console.log("link :" + _link)
         window.open(_link, "_self");
@@ -64,7 +65,6 @@ function getLink(link) {
 function callBack(output) {
     console.log("output ", output);
     if (output) {
-        let subId = getSubId(mobile, projCode);
         _getAryoProjectLink(child, getLink);
     }
     else {
@@ -89,7 +89,7 @@ function submitLead(e) {
         customerPincode: pincode,
         projectName: projectName,
         leadCategory: LEAD_CATEGORY,
-        subId: getSubId(mobile, projCode),
+        subId: subId,
         aggregatorName: "",
         payoutState: "Not eligible",
         status: "In process",
@@ -101,9 +101,4 @@ function submitLead(e) {
     };
 
     _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
-}
-
-function getSubId(mobile, projCode) {
-    
-    return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }

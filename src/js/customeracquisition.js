@@ -1,13 +1,13 @@
 import { _getFirestore, _getRtdb, _getCurrentFirebaseTime,
     _submitLead, _submitLeadToAryoLeadsDBCallBack,
-    _getAryoProjectLink } from './firebase';
+    _getAryoProjectLink, _getSubId } from './firebase';
 import { ONHOLD } from './helper'
 
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
-const PROJ_CODE = new Map([ ["IMBL", "R"]]);
-const PROJ_NAME = new Map([["IMBL", "iMobile"]]);
+const PROJ_CODE = new Map([ ["IMBL", "R"], ["JARS", "j"]]);
+const PROJ_NAME = new Map([["IMBL", "iMobile"], ["JARS", "Jar"]]);
 const LEAD_CATEGORY = "App download";
 
 const queryString = window.location.search;
@@ -19,7 +19,7 @@ const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
 var mobile;
-
+const subId = _getSubId(PROJ_CODE.get(projCode));
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
 
@@ -38,6 +38,9 @@ if (projectName == undefined || id.length != 28) {
 if (projCode == 'IMBL') {
    logo.src = "images/imobilelogo.png";
    mtag.innerHTML = "Manage all your Banking services with iMobile pay App!";
+} else if (projCode == 'JARS') {
+    logo.src = "images/jarlogo.png";
+   mtag.innerHTML = "Manage all your Savings & Investments in gold through JAR App!";
 }
 
 if (ONHOLD.includes(projCode)){
@@ -65,7 +68,7 @@ function submitLead(e) {
        customerPincode: pincode,
        projectName: projectName,
        leadCategory: LEAD_CATEGORY,
-       subId: getSubId(mobile, projCode),
+       subId: subId,
        aggregatorName: "",
        payoutState: "Not eligible",
        status: "In process",
@@ -78,12 +81,8 @@ function submitLead(e) {
    _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
 }
 
-function getSubId(mobile, projCode) {
-    return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
-}
-
 function callBack(output) {
-   console.log("output ", output);
+//    console.log("output ", output);
    if (output) {
     _getAryoProjectLink(child, getLink);
    }
@@ -94,7 +93,6 @@ function callBack(output) {
 
 function getLink(link) {
     if (link != null) {
-        let subId = getSubId(mobile, projCode);
         let _link = link.replace("{aryoId}", subId);
         window.open(_link, "_self");
     }

@@ -1,11 +1,13 @@
-import { _getCurrentFirebaseTime, _getFirestore, _getAryoProjectLink, _getRtdb, _isProjectOnHold, _submitLead, _submitLeadToAryoLeadsDBCallBack, _submitLeadWithCallBack } from './firebase'
+import { _getCurrentFirebaseTime, _getFirestore, _getAryoProjectLink,
+     _getRtdb, _isProjectOnHold, _submitLead, _submitLeadToAryoLeadsDBCallBack, 
+     _submitLeadWithCallBack, _getSubId } from './firebase'
 import { ONHOLD } from './helper';
 
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
 const PROJ_NAME = new Map([["axisc", "Axis"], ["frcrg", "Freecharge"], ["bajaj", "Bajaj EMI Card"],
-                    ["indus", "IndusInd"], ["kotak, Kotak"], "bobcc", "Bank Of Baroda"], ["icici", "ICICI"])
+                    ["indus", "IndusInd"], ["kotak", "Kotak"], ["bobcc", "Bank Of Baroda"], ["icici", "ICICI"]])
 const PROJ_CODE = new Map([["frcrg", "f"], ["bajaj", "b"], ["indus", "i"], ["kotak", "k"],
                     ["bobcc", "o"], ["icici", "c"]]);
 
@@ -21,6 +23,7 @@ const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
 // console.log("uid :", id, " projname ", projectName, " projCode ", projCode);
 
+const subId = _getSubId(PROJ_CODE.get(projCode));      
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
 
@@ -74,7 +77,6 @@ if (isValidUrl) {
 
 function getLink(link) {
     if (link != null) {
-        let subId = getSubId(mobile);
         let _link = link.replace("{aryoId}", subId);
         // console.log("link :" + _link)
         window.open(_link, "_self");
@@ -112,7 +114,7 @@ function submitLead(e) {
         customerEmail: email,
         customerPincode: pincode,
         projectName: projectName,
-        subId: getSubId(mobile),
+        subId: subId,
         leadCategory: LEAD_CATEGORY,
         aggregatorName: "",
         payoutState: "Not eligible",
@@ -124,11 +126,5 @@ function submitLead(e) {
         eligibleForPayout: false
     };
     _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
-}
-
-function getSubId(mobile) {
-    if (PROJ_CODE.get(projCode) != undefined) {
-        return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
-    }    
 }
 

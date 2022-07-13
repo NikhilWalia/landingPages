@@ -34,7 +34,10 @@ export const _getFirestore = () => { return db; }
 
 export const _getRtdb = () => { return rtdb; }
 
-export const _getCurrentFirebaseTime = () => { return Timestamp.now().toDate(); }
+export const _getCurrentFirebaseTime = () => { 
+
+    return Timestamp.now().toDate();
+ }
 
 export const _getAryoProjectLink = (path, callBack) => {
 
@@ -124,6 +127,7 @@ export const _submitLeadWithCallBack = async (lead, id, callBack) => {
 }
 
 export const _submitLeadToAryoLeadsDBCallBack = async (lead, id, callBack) => {
+
     const divLoader = document.createElement("div");
     divLoader.className = "loader";
     document.body.appendChild(divLoader);
@@ -225,4 +229,11 @@ export const _isProjectOnHold = (name, callBack) => {
     }).catch((error) => {
         callBack(null);
     });
+}
+
+export const _getSubId = (prefix) => {
+    
+    return (prefix + Timestamp.now().toJSON().seconds + 
+        Timestamp.now().toJSON().nanoseconds.toString().substring(0, 3));
+    
 }

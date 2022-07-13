@@ -1,6 +1,6 @@
 import { _getCurrentFirebaseTime, _getFirestore, _getAryoProjectLink, _getRtdb,
      _submitLeadToAryoLeadsDBCallBack, 
-     _submitLeadWithCallBack } from './firebase'
+     _submitLeadWithCallBack, _getSubId } from './firebase'
 import { ONHOLD } from './helper';
 
 const pincode = document.getElementById('pincodeId');
@@ -8,11 +8,10 @@ pincode.addEventListener('input', function () {
     console.log(this.value.length);
 });
 
-const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"], ["ICID", "D"]]);
+const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"], ["ICID", "D"], ["KTKC", "C"]]);
 
-const PROJ_NAME = new Map([["ESPR", "Espresso"], ["FSDM", "Fisdom"], ["5PSA", "5Paisa"],
-     ["PYTM", "Paytm"], ["ANGL", "Angel"], ["AXIS", "Axis Securities"], ["ICID", "ICICI Direct"],
-     ["EDLW", "Edelweiss"]]);
+const PROJ_NAME = new Map([["ESPR", "Espresso"], ["PYTM", "Paytm"], ["ANGL", "Angel"],
+     ["EDLW", "Edelweiss"], ["KTKC", "Kotak Cherry"] ]);
 
 const LEAD_CATEGORY = "Demat Account";
 
@@ -25,7 +24,9 @@ const projectCode = uid.substring(0, 6);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
-console.log("code => ",child, "  ", projCode, " ", projectName);
+// console.log("code => ",child, "  ", projCode, " ", projectName);
+
+const subId = _getSubId(PROJ_CODE.get(projCode));
 var mobile;
 
 if (projectName == undefined || id.length != 28) {
@@ -50,9 +51,9 @@ if (ONHOLD.includes(projectCode)){
 
 function getLink(link) {
     if (link != null) {
-        let subId = getSubId(mobile, projCode);
+        // let subId = subId;
         let _link = link.replace("{aryoId}", subId);
-        // console.log("link :" + _link)
+        console.log("link :" + _link)
         window.open(_link, "_self");
     }
     else {
@@ -64,7 +65,6 @@ function getLink(link) {
 function callBack(output) {
     console.log("output ", output);
     if (output) {
-        let subId = getSubId(mobile, projCode);
         _getAryoProjectLink(child, getLink);
     }
     else {
@@ -88,7 +88,7 @@ function submitLead(e) {
         customerEmail: email,
         customerPincode: pincode,
         projectName: projectName,
-        subId: getSubId(mobile, projCode),
+        subId: subId,
         leadCategory: LEAD_CATEGORY,
         aggregatorName: "",
         payoutState: "Not eligible",
@@ -99,10 +99,6 @@ function submitLead(e) {
         remarks: "",
         eligibleForPayout: false
     };
-    _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
-}
 
-function getSubId(mobile, projCode) {
-    
-    return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
+    _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
 }

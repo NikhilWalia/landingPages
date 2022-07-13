@@ -19,7 +19,7 @@ const id = uid.substring(0, uid.length);
 console.log("uid :", id);
 const pincode = document.getElementById('pincodeId');
 
-if (id.length != 28) {
+if (true) {
 
     console.log("Invalid url");
     let logo = document.getElementById('plogoId')
