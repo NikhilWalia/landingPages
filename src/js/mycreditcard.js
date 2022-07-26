@@ -7,9 +7,10 @@ const db = _getFirestore();
 const rtdb = _getRtdb();
 
 const PROJ_NAME = new Map([["axisc", "Axis"], ["frcrg", "Freecharge"], ["bajaj", "Bajaj EMI Card"],
-                    ["indus", "IndusInd"], ["kotak", "Kotak"], ["bobcc", "Bank Of Baroda"], ["icici", "ICICI"]])
+                    ["indus", "IndusInd"], ["kotak", "Kotak"], ["bobcc", "Bank Of Baroda"],
+                    ["icici", "ICICI"], ["idfcc", "IDFC"], ["ausfc", "AU Small Finance"]])
 const PROJ_CODE = new Map([["frcrg", "f"], ["bajaj", "b"], ["indus", "i"], ["kotak", "k"],
-                    ["bobcc", "o"], ["icici", "c"]]);
+                    ["bobcc", "o"], ["icici", "c"], ["idfcc", "d"], ["ausfc", "a"]]);
 
 const LEAD_CATEGORY = "Credit Card";
 var mobile;
@@ -71,6 +72,12 @@ if (isValidUrl) {
     } else if (projCode === 'icici') {
         logo.src = "images/icicilogo.png";
         mtag.innerHTML = "Get Your ICICI Bank Credit Card Now!";
+    } else if (projCode === 'idfcc') {
+        logo.src = "images/idfc.png";
+        mtag.innerHTML = "Get Your IDFC Bank Credit Card Now!";
+    } else if (projCode === 'ausfc') {
+        logo.src = "images/aulogo.png";
+        mtag.innerHTML = "Get Your AU Small Finance Bank Credit Card Now!";
     }
 }
 

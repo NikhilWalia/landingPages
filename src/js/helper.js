@@ -7,4 +7,4 @@ export const pancardValidation = (text) => {
 }
 
 export const ONHOLD = ["5PSADA", "SAS0DA", "AXISSA", "JARS",
-                        "ESPRDA", "IMBL", "MDRX", "ICIDDA", "AXISDA", "EDLWDA"];
+                        "ESPRDA", "IMBL", "MDRX", "AXISDA", "idfcc"];

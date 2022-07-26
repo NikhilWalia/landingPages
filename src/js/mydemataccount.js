@@ -8,10 +8,10 @@ pincode.addEventListener('input', function () {
     console.log(this.value.length);
 });
 
-const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"], ["ICID", "D"], ["KTKC", "C"]]);
+const PROJ_CODE = new Map([ ["ESPR", 6], ["AXIS", "X"], ["ICID", "D"], ["KTKC", "C"], ["EDLW", "E"], ["YESS", "Y"]]);
 
 const PROJ_NAME = new Map([["ESPR", "Espresso"], ["PYTM", "Paytm"], ["ANGL", "Angel"],
-     ["EDLW", "Edelweiss"], ["KTKC", "Kotak Cherry"] ]);
+     ["EDLW", "Edelweiss"], ["KTKC", "Kotak Cherry"], ["ICID", "ICICI Direct"], ["YESS", "Yes Securities"] ]);
 
 const LEAD_CATEGORY = "Demat Account";
 

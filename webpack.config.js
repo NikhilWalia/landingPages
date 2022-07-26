@@ -25,7 +25,8 @@ module.exports = {
     mcd: path.join(__dirname, 'src', 'js', 'mycreditcard.js'),
     crt: path.join(__dirname, 'src', 'js', 'mycrypto.js'),
     mcc: path.join(__dirname, 'src', 'js', 'mycc.js'),
-    bnpl: path.join(__dirname, 'src', 'js', 'bnpl.js')
+    bnpl: path.join(__dirname, 'src', 'js', 'bnpl.js'),
+    pp: path.join(__dirname, 'src', 'js', 'parkplus.js')
 
 
   },

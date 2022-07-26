@@ -27,9 +27,9 @@ const leadCat = uid.substring(4, 6);
 const id = uid.substring(6, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
-
+var subId;
 var mobile;
-const subId = _getSubId(PROJ_CODE.get(projCode));
+
 if (projectName == undefined || id.length != 28) {
 
     console.log("Invalid url");
@@ -81,6 +81,13 @@ function submitLead(e) {
     let email = document.querySelector('#emailId').value;
     let pincode = document.querySelector('#pincodeId').value;
     console.log(name, " ", mobile, " ", email, " ", pincode);
+
+    if (projCode === 'K811') {
+        subId = getSubIdLegacy(mobile, projCode);
+    } else {
+        subId = _getSubId(PROJ_CODE.get(projCode));
+    }
+
     const lead = {
         agentId: id,
         customerName: name,
@@ -101,4 +108,9 @@ function submitLead(e) {
     };
 
     _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
+}
+
+function getSubIdLegacy(mobile, projCode) {
+
+    return (PROJ_CODE.get(projCode) + mobile.charAt(0) + mobile.charAt(2) + mobile.charAt(4) + mobile.charAt(6) + mobile.charAt(8));
 }
