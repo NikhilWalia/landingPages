@@ -24,10 +24,10 @@ const projectName = PROJ_NAME.get(projCode);
 const child = LEAD_CATEGORY + "/" + projectName;
 // console.log("uid :", id, " projname ", projectName, " projCode ", projCode);
 
-const subId = _getSubId(PROJ_CODE.get(projCode));      
+var subId = _getSubId(PROJ_CODE.get(projCode));      
 let logo = document.getElementById('plogoId');
 let mtag = document.getElementById('taglineId');
-
+var buttonSub = document.getElementById('submitleadId');
 var isValidUrl = true;
 if (projectName == undefined) {
 
@@ -94,9 +94,14 @@ function getLink(link) {
     }
 }
 
-function callBack(output) {
+function callBack(output, newSubId) {
     console.log("output ", output);
+    buttonSub.disabled = false;
+    buttonSub.style.backgroundColor = "#4285F4";
     if (output) {
+        if (newSubId != null) {
+            subId = newSubId;
+        }
         _getAryoProjectLink(child, getLink);
     }
     else {
@@ -108,6 +113,9 @@ document.getElementById('leadform').addEventListener('submit', submitLead);
 
 function submitLead(e) {
     e.preventDefault();
+
+    buttonSub.disabled = true;
+    buttonSub.style.background = "#D3D3D3";
 
     let name = document.querySelector('#fullnameId').value;
     mobile = document.querySelector('#mobileId').value;

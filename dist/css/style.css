@@ -265,6 +265,11 @@
             /* Firefox */
         }
 
+        .payulogo {
+            display: block;
+            margin: auto;
+        }
+
         .groupfield {
             display: block;
             width: 100%;
@@ -366,6 +371,14 @@
             height: 75px;
             width: 120px;
             margin-top: 20px;
+           }
+
+            .payulogo {
+                display: block;
+                margin: auto;
+                width: 50%;
+                height: 50%;
+            }
         }
 
         .taglineheader {

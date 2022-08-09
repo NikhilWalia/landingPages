@@ -81,10 +81,7 @@ export const _submitLeadWithCallBack = async (lead, id, callBack) => {
         , where("customerMobile", "==", lead.customerMobile));
     const querySnapshot = await getDocs(q);
     console.log("day  ", Timestamp.now().toDate().toDateString())
-    // setDoc(doc(db, 'WorkingAgentsDB', id), {
-    //     dateOfSubmission: Timestamp.now().toDate()
-    // })
-    //     .then(docref => {
+ 
             if (querySnapshot.size > 0) {
                 querySnapshot.forEach((docRef) => {
                     // console.log("-> ", docRef.id, " => ", docRef.data());
@@ -94,6 +91,7 @@ export const _submitLeadWithCallBack = async (lead, id, callBack) => {
                             customerName: lead.customerName,
                             customerEmail: lead.customerEmail,
                             customerPincode: lead.customerPincode,
+                            subId: lead.subId
                         }
                     ).then(_doc => {
                         // console.log("Document updated with ID: dref ", docRef.id)
@@ -131,6 +129,15 @@ export const _submitLeadToAryoLeadsDBCallBack = async (lead, id, callBack) => {
     const divLoader = document.createElement("div");
     divLoader.className = "loader";
     document.body.appendChild(divLoader);
+
+    //for testing 
+    // await new Promise(r => setTimeout(r, 5000));
+    // divLoader.remove();
+    // callBack(false, null);
+    // return;
+
+    //end testing 
+    
     //check if lead already exist
     const leadRef = collection(db, `AryoLeadsDB`);
     // console.log("projectname ", lead.projectName, " mobile ", lead.customerMobile)
@@ -142,18 +149,20 @@ export const _submitLeadToAryoLeadsDBCallBack = async (lead, id, callBack) => {
 
             if (querySnapshot.size > 0) {
                 querySnapshot.forEach((docRef) => {
-                    // console.log("-> ", docRef.id, " => ", docRef.data());
+                    console.log("-> ", docRef.id, " => ", docRef.data()["subId"]);
+                    let newSubId = docRef.data()["subId"];
                     const leadDocRef = doc(db, `AryoLeadsDB`, `${docRef.id}`);
                     updateDoc(leadDocRef,
                         {
                             customerName: lead.customerName,
                             customerEmail: lead.customerEmail,
                             customerPincode: lead.customerPincode,
+                            subId: newSubId
                         }
                     ).then(_doc => {
                         // console.log("Document updated with ID: dref ", docRef.id)
                         divLoader.remove();
-                        callBack(true);
+                        callBack(true, newSubId);
                     })
                 });
             } else {
@@ -163,13 +172,13 @@ export const _submitLeadToAryoLeadsDBCallBack = async (lead, id, callBack) => {
                     addDoc(aryoLeadsCol, lead).then(docRef=>{
                         console.log("lead submitted ");
                         divLoader.remove();
-                        callBack(true);
+                        callBack(true, null);
                     })
                 }
                 catch (err) {
                     // console.log(err);
                     divLoader.remove();
-                    callBack(false);
+                    callBack(false, null);
                 }
             }
 }

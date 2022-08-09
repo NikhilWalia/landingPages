@@ -1,12 +1,13 @@
 import { _getFirestore, _getRtdb, _getCurrentFirebaseTime,
     _submitLead, _isProjectOnHold,
-    _getAryoProjectLink, 
+    _getAryoProjectLink, _getSubId,
     _submitLeadToAryoLeadsDBCallBack} from './firebase';
 import { ONHOLD } from './helper'
 
 const db = _getFirestore();
 const rtdb = _getRtdb();
 
+const PROJ_CODE = new Map([["UNCN", "U"]]);
 const PROJ_NAME = new Map([["MDRX", "Mudrex"], ["GOTS", "Giottus"], ["UNCN", "Unocoin"]]);
 const LEAD_CATEGORY = "Crypto";
 
@@ -19,7 +20,8 @@ const id = uid.substring(4, uid.length);
 const projectName = PROJ_NAME.get(projCode);
 
 const child = LEAD_CATEGORY + "/" + projectName;
-
+var subId = _getSubId(PROJ_CODE.get(projCode));
+var buttonSub = document.getElementById('submitleadId');
 if (projectName == undefined || id.length != 28) {
 
     console.log("Invalid url");
@@ -71,12 +73,14 @@ function output(output) {
    }
 }
 
-
-document.getElementById('leadform').addEventListener('submit', submitLead);
+var leadForm = document.getElementById('leadform');
+leadForm.addEventListener('submit', submitLead);
 
 function submitLead(e) {
    e.preventDefault();
 
+   buttonSub.disabled = true;
+   buttonSub.style.background = "#D3D3D3";
    let name = document.querySelector('#fullnameId').value;
    let mobile = document.querySelector('#mobileId').value;
    let email = document.querySelector('#emailId').value;
@@ -89,6 +93,7 @@ function submitLead(e) {
        customerEmail: email,
        customerPincode: pincode,
        projectName: projectName,
+       subId: subId,
        leadCategory: LEAD_CATEGORY,
        aggregatorName: "",
        payoutState: "Not eligible",
@@ -100,21 +105,28 @@ function submitLead(e) {
        eligibleForPayout: false
    };
    _submitLeadToAryoLeadsDBCallBack(lead, id, callBack);
+
 }
 
-function callBack(output) {
-   console.log("output ", output);
-   if (output) {
-    _getAryoProjectLink(child, getLink);
-   }
-   else {
-       if (!alert("Something went wrong, please try again!!")){window.location.reload();}
-   }
+function callBack(output, newSubId) {
+    buttonSub.disabled = false;
+    buttonSub.style.backgroundColor = "#4285F4";
+    // console.log("output ", output,  " newSubid " , newSubId);
+    if (output) {
+        if (newSubId != null) {
+            subId = newSubId;
+        }
+        _getAryoProjectLink(child, getLink);
+    }
+    else {
+        if (!alert("Something went wrong, please try again!!")){window.location.reload();}
+    }
 }
 
 function getLink(link) {
    if (link != null) {
-       window.open(link, "_self");
+        let _link = link.replace("{aryoId}", subId);
+        window.open(_link, "_self");
     
    }
    else {
